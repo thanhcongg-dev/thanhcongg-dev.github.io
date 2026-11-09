@@ -1,0 +1,547 @@
+!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThanhCongDev - Kho IPA VIP</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #fafafa;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #64748b;
+      --border: #e2e8f0;
+      --badge-bg: #f1f5f9;
+      --dark-card: #09090b;
+      --dark-border: #27272a;
+    }
+
+    [data-theme="dark"] {
+      --bg: #09090b;
+      --card-bg: #18181b;
+      --text-main: #f4f4f5;
+      --text-sub: #a1a1aa;
+      --border: #27272a;
+      --badge-bg: #27272a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    /* Navbar */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .brand span {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* Header Realtime */
+    .realtime-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .greeting-text {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .digital-clock {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-bottom: 36px;
+    }
+
+    .avatar-box {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin-bottom: 20px;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed var(--primary);
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    /* Section divider */
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Badges */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+
+    .tag {
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* IPA Cards */
+    .ipa-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .ipa-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .ipa-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .ipa-thumb-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ipa-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+
+    .ipa-name {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .ipa-meta {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .ipa-arrow {
+      color: var(--text-main);
+      font-size: 16px;
+      text-decoration: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--badge-bg);
+    }
+
+    .ipa-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .ipa-tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--badge-bg);
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    /* Dark CTA Section */
+    .cta-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 20px;
+      padding: 28px 20px;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .cta-quote {
+      font-size: 14px;
+      color: #a1a1aa;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      border-left: 2px solid var(--primary);
+      padding-left: 12px;
+    }
+
+    .cta-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 14px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-brand {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .footer-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .social-link {
+      color: var(--text-main);
+      font-size: 18px;
+      text-decoration: none;
+    }
+
+    .copyright {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Navbar -->
+    <nav class="nav">
+      <div class="brand"><span>&lt;/&gt;</span> ThanhCongDev</div>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleTheme()" id="theme-icon">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Realtime Clock & Greeting -->
+    <div class="realtime-box">
+      <div class="greeting-text" id="greeting">Khuya rồi, nghỉ ngơi nhé</div>
+      <div class="digital-clock" id="clock">00:00:00</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="avatar-box">
+        <div class="avatar-ring"></div>
+        <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="ThanhCongDev" class="avatar-img">
+      </div>
+      <h1 class="hero-title">Xin chào, mình là<br>@ThanhCongDev</h1>
+      <p class="hero-desc">Chào mừng tới kho IPA chính thức. Hỗ trợ mua bán các bản IPA ứng dụng, game mod chất lượng cao nhất cho iOS.</p>
+      <div class="hero-btns">
+        <a href="#kho-ipa" class="btn btn-primary">Xem kho IPA</a>
+        <a href="https://t.me/thanhconggdev" target="_blank" class="btn btn-secondary">Liên hệ Ad</a>
+      </div>
+    </section>
+
+    <!-- Tags / Tech Stack -->
+    <div class="section-label">TÍNH NĂNG & DỊCH VỤ</div>
+    <div class="tags">
+      <span class="tag">Shadowrocket</span>
+      <span class="tag">Liên Quân Mod</span>
+      <span class="tag">Locket Gold</span>
+      <span class="tag">YouTube Premium</span>
+      <span class="tag">IPA iOS</span>
+      <span class="tag">Hỗ trợ 24/7</span>
+    </div>
+
+    <!-- IPA List -->
+    <div class="section-label" id="kho-ipa">KHO IPA NỔI BẬT</div>
+    <div class="ipa-list">
+
+      <!-- Item 1: Shadowrocket -->
+      <div class="ipa-card">
+        <div class="ipa-header">
+          <div class="ipa-thumb-wrap">
+            <img src="https://cdn.phototourl.com/member/2026-11-09-c227b09f-eaa7-45eb-93bd-2c0ae743e5b3.jpg" alt="Shadowrocket" class="ipa-thumb">
+            <div>
+              <div class="ipa-name">Shadowrocket</div>
+              <div class="ipa-meta">Giá: 10k / lượt</div>
+            </div>
+          </div>
+          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </div>
+        <div class="ipa-tags">
+          <span class="ipa-tag">iOS</span>
+          <span class="ipa-tag">10k / Lượt</span>
+          <span class="ipa-tag">Ủy quyền Apple ID</span>
+        </div>
+      </div>
+
+      <!-- Item 2: Liên Quân -->
+      <div class="ipa-card">
+        <div class="ipa-header">
+          <div class="ipa-thumb-wrap">
+            <img src="https://cdn.phototourl.com/member/2026-11-09-65cd2380-4336-419d-ad9c-0f5a06c82043.jpg" alt="Liên Quân" class="ipa-thumb">
+            <div>
+              <div class="ipa-name">Liên Quân Mobile Hack</div>
+              <div class="ipa-meta">Dung lượng: 500 MB</div>
+            </div>
+          </div>
+          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </div>
+        <div class="ipa-tags">
+          <span class="ipa-tag">iOS 50K/Năm</span>
+          <span class="ipa-tag">Menu Hack</span>
+          <span class="ipa-tag">ESP / Minimap</span>
+        </div>
+      </div>
+
+      <!-- Item 3: Locket Gold -->
+      <div class="ipa-card">
+        <div class="ipa-header">
+          <div class="ipa-thumb-wrap">
+            <img src="https://cdn.phototourl.com/member/2026-11-09-51badb16-0805-4b9d-8b0f-44a86d156c5d.jpg" alt="Locket Gold" class="ipa-thumb">
+            <div>
+              <div class="ipa-name">Locket Gold 60s Có Filter</div>
+              <div class="ipa-meta">Cài DNS,Shadowrocket</div>
+            </div>
+          </div>
+          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </div>
+        <div class="ipa-tags">
+          <span class="ipa-tag">iOS</span>
+          <span class="ipa-tag">Gold Unlocked 30-120k</span>
+          <span class="ipa-tag">Cam 60s + Filter</span>
+        </div>
+      </div>
+
+      <!-- Item 4: YouTube Premium -->
+      <div class="ipa-card">
+        <div class="ipa-header">
+          <div class="ipa-thumb-wrap">
+            <img src="https://cdn.phototourl.com/member/2026-11-09-d0fda36e-a49f-4458-87db-94db642765dd.jpg" alt="YouTube" class="ipa-thumb">
+            <div>
+              <div class="ipa-name">YouTube Premium IPA</div>
+              <div class="ipa-meta">Bản IPA cài đặt qua Sideloadly/ESign</div>
+            </div>
+          </div>
+          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </div>
+        <div class="ipa-tags">
+          <span class="ipa-tag">iOS</span>
+          <span class="ipa-tag">Chạy nền</span>
+          <span class="ipa-tag">Chặn quảng cáo</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Dark Call to Action -->
+    <div class="cta-card">
+      <div class="cta-quote">"Kho IPA Và Các Tính Năng Về Locket Gold cập nhật liên tục, uy tín và hỗ trợ cài đặt nhanh chóng qua Telegram."</div>
+      <div class="cta-title">Liên hệ Ad để mua kho IPA ngay</div>
+      <a href="https://t.me/thanhconggdev" target="_blank" class="btn btn-primary cta-btn">Liên Hệ Admin Telegram</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-brand">ThanhCongDev</div>
+      <div class="footer-sub">&lt;/ xây dựng với đam mê &gt;</div>
+      <div class="social-links">
+        <a href="https://t.me/thanhconggdev" target="_blank" class="social-link"><i class="fa-brands fa-telegram"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-github"></i></a>
+      </div>
+      <div class="copyright">© 2026 ThanhCongDev. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+
+      const hours = now.getHours();
+      let text = "Chúc bạn một ngày tốt lành!";
+      if (hours >= 5 && hours < 11) text = "Buổi sáng vui vẻ!";
+      else if (hours >= 11 && hours < 14) text = "Chào buổi trưa!";
+      else if (hours >= 14 && hours < 18) text = "Buổi chiều năng động!";
+      else if (hours >= 18 && hours < 23) text = "Tối rồi, thư giãn nhé!";
+      else text = "Khuya rồi, nghỉ ngơi nhé!";
+      document.getElementById('greeting').textContent = text;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function toggleTheme() {
+      const body = document.body;
+      const icon = document.querySelector('#theme-icon i');
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        icon.className = 'fa-solid fa-moon';
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        icon.className = 'fa-solid fa-sun';
+      }
+    }
+  </script>
+</body>
+</html>
