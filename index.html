@@ -19,7 +19,7 @@
       --dark-border: #27272a;
     }
 
-    /* Mặc định khởi động bằng Dark Theme */
+    /* Mặc định Dark Theme theo yêu cầu */
     :root, [data-theme="dark"] {
       --bg: #09090b;
       --card-bg: #18181b;
@@ -52,6 +52,52 @@
       padding: 24px 16px;
       display: flex;
       justify-content: center;
+      overflow-x: hidden;
+    }
+
+    /* Màn hình chờ (Splash Screen giống video) */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      background: #09090b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: #fff;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      margin-bottom: 16px;
+      animation: pulseSplash 1.5s infinite alternate;
+    }
+
+    .splash-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .splash-sub {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    @keyframes pulseSplash {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(37, 99, 235, 0); }
+      100% { transform: scale(1.05); box-shadow: 0 0 20px rgba(37, 99, 235, 0.5); }
     }
 
     .container {
@@ -59,113 +105,65 @@
       max-width: 480px;
     }
 
-    /* Navbar */
+    /* Navbar mẫu mới */
     .nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
 
-    .brand {
+    .top-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
     }
 
-    .brand span {
-      color: var(--primary);
-    }
-
-    /* Hiệu ứng gõ chữ Navbar */
-    .typing-container {
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .typed-text {
-      color: var(--text-main);
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 2px;
-      height: 18px;
-      background-color: var(--primary);
-      margin-left: 2px;
-      animation: blink 0.8s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    .top-pill i {
+      color: #eab308;
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .icon-btn {
-      background: transparent;
-      border: none;
-      font-size: 20px;
-      color: var(--text-main);
-      cursor: pointer;
-    }
-
-    /* Header Realtime sinh động */
-    .realtime-box {
+    .menu-btn, .icon-btn {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      padding: 14px 18px;
-      border-radius: 14px;
-      margin-bottom: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 16px;
+      color: var(--text-main);
+      cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(37, 99, 235, 0.08);
-      animation: boxGlow 4s ease-in-out infinite alternate;
-    }
-
-    @keyframes boxGlow {
-      0% { border-color: var(--border); box-shadow: 0 0 5px rgba(37, 99, 235, 0.05); }
-      100% { border-color: var(--primary); box-shadow: 0 0 15px rgba(37, 99, 235, 0.25); }
-    }
-
-    .greeting-text {
-      font-size: 13px;
-      color: var(--text-sub);
-      font-weight: 500;
-    }
-
-    .digital-clock {
-      font-size: 17px;
-      font-weight: 800;
-      font-family: monospace;
-      background: linear-gradient(135deg, #2563eb, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
+      justify-content: center;
     }
 
     /* Hero Section */
     .hero {
-      margin-bottom: 36px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 32px;
     }
 
-    /* Avatar cải tiến hiệu ứng gradient xoay 3D & phát sáng */
+    /* Avatar hiệu ứng gradient 3D */
     .avatar-box {
       position: relative;
-      width: 96px;
-      height: 96px;
-      margin-bottom: 20px;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -193,8 +191,8 @@
     }
 
     .avatar-img {
-      width: 90px;
-      height: 90px;
+      width: 92px;
+      height: 92px;
       border-radius: 50%;
       object-fit: cover;
       position: relative;
@@ -202,12 +200,29 @@
       border: 3px solid var(--card-bg);
     }
 
+    .hero-name-badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
     .hero-title {
       font-size: 26px;
       font-weight: 800;
       line-height: 1.25;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     /* Tick xanh Facebook xoay */
@@ -218,8 +233,8 @@
     }
 
     .fb-tick {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -236,26 +251,83 @@
       100% { transform: rotate(360deg); }
     }
 
-    .hero-desc {
+    /* Hiệu ứng gõ chữ Subtitle giống video */
+    .hero-typing {
       font-size: 15px;
       color: var(--text-sub);
-      line-height: 1.5;
       margin-bottom: 24px;
+      height: 24px;
+      font-weight: 500;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 15px;
+      background-color: var(--primary);
+      margin-left: 2px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* 3 Cột Thống Kê Giống Video */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 14px 8px;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      padding: 0 10px;
     }
 
     .hero-btns {
       display: flex;
       gap: 12px;
+      width: 100%;
     }
 
     .btn {
-      padding: 12px 20px;
-      border-radius: 10px;
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 12px;
       font-weight: 600;
       font-size: 14px;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
     }
 
@@ -265,7 +337,7 @@
     }
 
     .btn-secondary {
-      background: transparent;
+      background: var(--card-bg);
       border: 1px solid var(--border);
       color: var(--text-main);
     }
@@ -275,13 +347,13 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .social-btn {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 14px 16px;
       display: flex;
       align-items: center;
@@ -311,7 +383,6 @@
       flex-shrink: 0;
     }
 
-    /* Màu sắc riêng cho từng nút mạng xã hội */
     .bg-locket { background: linear-gradient(135deg, #ff334b, #ff7b54); }
     .bg-zalo { background: #0068ff; }
     .bg-tiktok { background: #000000; }
@@ -342,14 +413,14 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .tag {
       background: var(--badge-bg);
       border: 1px solid var(--border);
-      padding: 6px 14px;
-      border-radius: 8px;
+      padding: 8px 14px;
+      border-radius: 10px;
       font-size: 13px;
       font-weight: 500;
     }
@@ -359,7 +430,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .ipa-card {
@@ -420,6 +491,7 @@
       display: flex;
       gap: 6px;
       margin-top: 14px;
+      flex-wrap: wrap;
     }
 
     .ipa-tag {
@@ -438,7 +510,7 @@
       border-radius: 20px;
       padding: 28px 20px;
       color: white;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .cta-quote {
@@ -502,28 +574,29 @@
 </head>
 <body data-theme="dark">
 
+  <!-- Màn hình chờ (Splash Screen) -->
+  <div id="splash-screen">
+    <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="Avatar" class="splash-avatar">
+    <div class="splash-title">ThanhCongDev</div>
+    <div class="splash-sub">Đang khởi động...</div>
+  </div>
+
   <div class="container">
-    <!-- Navbar -->
+    <!-- Navbar mẫu mới theo video -->
     <nav class="nav">
-      <div class="brand">
-        <span>&lt;/&gt;</span>
-        <div class="typing-container">
-          <span class="typed-text" id="typed-output"></span>
-          <span class="cursor"></span>
-        </div>
+      <div class="top-pill" id="greeting-pill">
+        <i class="fa-solid fa-cloud-sun"></i>
+        <span id="greeting">Good Afternoon! 16:33</span>
       </div>
       <div class="nav-actions">
-        <button class="icon-btn" onclick="toggleTheme()" id="theme-icon">
+        <button class="icon-btn" onclick="toggleTheme()" id="theme-icon" title="Đổi giao diện">
           <i class="fa-solid fa-sun"></i>
+        </button>
+        <button class="menu-btn" title="Menu">
+          <i class="fa-solid fa-bars"></i>
         </button>
       </div>
     </nav>
-
-    <!-- Realtime Clock & Greeting Sinh Động -->
-    <div class="realtime-box">
-      <div class="greeting-text" id="greeting">Khuya rồi, nghỉ ngơi nhé</div>
-      <div class="digital-clock" id="clock">00:00:00</div>
-    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -531,27 +604,52 @@
         <div class="avatar-ring"></div>
         <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="ThanhCongDev" class="avatar-img">
       </div>
+      
+      <div class="hero-name-badge">Tumadam</div>
+      
       <h1 class="hero-title">
-        Xin chào, mình là<br>
+        <span>ThanhCongDev</span>
         <span class="name-wrapper">
-          Hà Văn Thành
-          <!-- Huy hiệu Tick xanh Facebook xoay vòng ngoài -->
+          <!-- Huy hiệu Tick xanh Facebook xoay -->
           <span class="fb-tick" title="Đã xác minh">
-            <svg viewBox="0 0 24 24" width="22" height="22">
+            <svg viewBox="0 0 24 24" width="20" height="20">
               <path class="fb-tick-bg" fill="#0866FF" d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34z"/>
               <path fill="#FFFFFF" d="M10.54 16.2L6.8 12.46l1.41-1.42 2.33 2.33 5.25-5.25 1.42 1.41-6.67 6.67z"/>
             </svg>
           </span>
         </span>
       </h1>
+
+      <!-- Hiệu ứng gõ chữ mô phỏng video -->
+      <div class="hero-typing">
+        <span id="typed-output"></span><span class="cursor"></span>
+      </div>
+
+      <!-- 3 Cột Thống Kê Giống Video -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">500M+</div>
+          <div class="stat-label">Lượt tải</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">2026</div>
+          <div class="stat-label">Cập nhật</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">#1</div>
+          <div class="stat-label">iOS</div>
+        </div>
+      </div>
+
       <p class="hero-desc">Chào mừng tới Bio chính thức. Hỗ trợ mua bán các bản IPA ứng dụng, game mod chất lượng cao nhất cho iOS.</p>
+      
       <div class="hero-btns">
-        <a href="#kho-ipa" class="btn btn-primary">Xem kho IPA</a>
-        <a href="https://t.me/thanhconggdev" target="_blank" class="btn btn-secondary">Liên hệ Ad</a>
+        <a href="#kho-ipa" class="btn btn-primary"><i class="fa-solid fa-gamepad"></i> Xem kho IPA</a>
+        <a href="https://t.me/thanhconggdev" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-telegram"></i> Liên hệ Ad</a>
       </div>
     </section>
 
-    <!-- Trang cá nhân  -->
+    <!-- Trang cá nhân kết nối -->
     <div class="section-label">KẾT NỐI VỚI TÔI</div>
     <div class="social-grid">
       <a href="https://locket.cam/thanhdepzai00" target="_blank" class="social-btn">
@@ -685,8 +783,15 @@
   </div>
 
   <script>
-    // Hiệu ứng gõ chữ Navbar
-    const words = ["Developer", "Designer", "Coder", "Creator", "Dev"];
+    // Ẩn màn hình chờ sau 1.5 giây giống video
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('splash-screen').classList.add('hidden');
+      }, 1200);
+    });
+
+    // Hiệu ứng gõ chữ linh hoạt giống video
+    const words = ["I'm a Developer", "Top 1 Hack", "Welcome to my Website! ❤️", "Scroll down to explore 👇"];
     let i = 0;
 
     function typingEffect() {
@@ -695,10 +800,10 @@
         if (word.length > 0) {
           document.getElementById('typed-output').textContent += word.shift();
         } else {
-          setTimeout(deletingEffect, 2000);
+          setTimeout(deletingEffect, 2200);
           return;
         }
-        setTimeout(loopTyping, 120);
+        setTimeout(loopTyping, 100);
       };
       loopTyping();
     }
@@ -711,32 +816,46 @@
           document.getElementById('typed-output').textContent = word.join("");
         } else {
           i = (i + 1) % words.length;
-          setTimeout(typingEffect, 500);
+          setTimeout(typingEffect, 400);
           return;
         }
-        setTimeout(loopDeleting, 60);
+        setTimeout(loopDeleting, 50);
       };
       loopDeleting();
     }
 
     typingEffect();
 
-    // Đồng hồ & Lời chào
+    // Cập nhật giờ thực tế & Lời chào theo buổi trong ngày
     function updateClock() {
       const now = new Date();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      const s = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
-
       const hours = now.getHours();
-      let text = "Chúc bạn một ngày tốt lành!";
-      if (hours >= 5 && hours < 11) text = "Buổi sáng vui vẻ!";
-      else if (hours >= 11 && hours < 14) text = "Chào buổi trưa!";
-      else if (hours >= 14 && hours < 18) text = "Buổi chiều năng động!";
-      else if (hours >= 18 && hours < 23) text = "Tối rồi, thư giãn nhé!";
-      else text = "Khuya rồi, nghỉ ngơi nhé!";
-      document.getElementById('greeting').textContent = text;
+      const hStr = String(hours).padStart(2, '0');
+      const mStr = String(now.getMinutes()).padStart(2, '0');
+      const timeStr = `${hStr}:${mStr}`;
+
+      let text = "Good Day!";
+      let iconClass = "fa-solid fa-cloud-sun";
+      
+      if (hours >= 5 && hours < 11) {
+        text = "Good Morning!";
+        iconClass = "fa-solid fa-sun";
+      } else if (hours >= 11 && hours < 14) {
+        text = "Good Noon!";
+        iconClass = "fa-solid fa-cloud-sun";
+      } else if (hours >= 14 && hours < 18) {
+        text = "Good Afternoon!";
+        iconClass = "fa-solid fa-cloud-sun";
+      } else if (hours >= 18 && hours < 23) {
+        text = "Good Evening!";
+        iconClass = "fa-solid fa-moon";
+      } else {
+        text = "Good Night!";
+        iconClass = "fa-solid fa-star";
+      }
+
+      document.getElementById('greeting').textContent = `${text} ${timeStr}`;
+      document.querySelector('#greeting-pill i').className = iconClass;
     }
     setInterval(updateClock, 1000);
     updateClock();
