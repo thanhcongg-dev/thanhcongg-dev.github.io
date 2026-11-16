@@ -55,7 +55,7 @@
       overflow-x: hidden;
     }
 
-    /* Màn hình chờ (Splash Screen giống video) */
+    /* Màn hình chờ (Splash Screen) */
     #splash-screen {
       position: fixed;
       inset: 0;
@@ -111,18 +111,20 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 24px;
+      gap: 8px;
     }
 
     .top-pill {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      padding: 8px 14px;
+      padding: 8px 12px;
       border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-size: 12px;
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .top-pill i {
@@ -132,21 +134,32 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .menu-btn, .icon-btn {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 12px;
-      font-size: 16px;
+      font-size: 15px;
       color: var(--text-main);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Hiệu ứng xoay đĩa nhạc khi đang phát */
+    .music-playing {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .music-playing i {
+      animation: spin 3s linear infinite;
     }
 
     /* Hero Section */
@@ -251,7 +264,7 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Hiệu ứng gõ chữ Subtitle giống video */
+    /* Hiệu ứng gõ chữ Subtitle */
     .hero-typing {
       font-size: 15px;
       color: var(--text-sub);
@@ -274,7 +287,7 @@
       50% { opacity: 0; }
     }
 
-    /* 3 Cột Thống Kê Giống Video */
+    /* 3 Cột Thống Kê */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -574,6 +587,11 @@
 </head>
 <body data-theme="dark">
 
+  <!-- THAY LINK NHẠC .MP3 CỦA BẠN VÀO DÒNG DƯỚI ĐÂY -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="https://files.catbox.moe/hv7p5t.m4a" type="audio/mpeg">
+  </audio>
+
   <!-- Màn hình chờ (Splash Screen) -->
   <div id="splash-screen">
     <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="Avatar" class="splash-avatar">
@@ -582,13 +600,17 @@
   </div>
 
   <div class="container">
-    <!-- Navbar mẫu mới theo video -->
+    <!-- Navbar -->
     <nav class="nav">
       <div class="top-pill" id="greeting-pill">
         <i class="fa-solid fa-cloud-sun"></i>
-        <span id="greeting">Good Afternoon! 16:33</span>
+        <span id="greeting">Good Afternoon! 16:33:00</span>
       </div>
       <div class="nav-actions">
+        <!-- Nút Bật/Tắt nhạc nền -->
+        <button class="icon-btn" onclick="toggleMusic()" id="music-btn" title="Bật/Tắt nhạc">
+          <i class="fa-solid fa-music"></i>
+        </button>
         <button class="icon-btn" onclick="toggleTheme()" id="theme-icon" title="Đổi giao diện">
           <i class="fa-solid fa-sun"></i>
         </button>
@@ -620,12 +642,12 @@
         </span>
       </h1>
 
-      <!-- Hiệu ứng gõ chữ mô phỏng video -->
+      <!-- Hiệu ứng gõ chữ -->
       <div class="hero-typing">
         <span id="typed-output"></span><span class="cursor"></span>
       </div>
 
-      <!-- 3 Cột Thống Kê Giống Video -->
+      <!-- 3 Cột Thống Kê -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-value">5xx</div>
@@ -783,14 +805,52 @@
   </div>
 
   <script>
-    // Ẩn màn hình chờ sau 1.5 giây giống video
+    // Xử lý nhạc nền tự động phát
+    const bgMusic = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
+    let userPaused = false;
+
+    function playAudio() {
+      if (userPaused) return;
+      bgMusic.play().then(() => {
+        musicBtn.classList.add('music-playing');
+        musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
+      }).catch(() => {
+        // Trình duyệt chặn tự phát trước khi tương tác -> đợi cú chạm đầu tiên
+      });
+    }
+
+    function toggleMusic() {
+      if (bgMusic.paused) {
+        userPaused = false;
+        bgMusic.play();
+        musicBtn.classList.add('music-playing');
+        musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
+      } else {
+        userPaused = true;
+        bgMusic.pause();
+        musicBtn.classList.remove('music-playing');
+        musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      }
+    }
+
+    // Tự động thử phát khi tải trang & khi người dùng chạm lần đầu
     window.addEventListener('load', () => {
+      playAudio();
       setTimeout(() => {
         document.getElementById('splash-screen').classList.add('hidden');
       }, 1200);
     });
 
-    // Hiệu ứng gõ chữ linh hoạt giống video
+    ['click', 'touchstart', 'scroll'].forEach(evt => {
+      document.addEventListener(evt, () => {
+        if (bgMusic.paused && !userPaused) {
+          playAudio();
+        }
+      }, { once: true });
+    });
+
+    // Hiệu ứng gõ chữ
     const words = ["I'm a Developer", "Top 1 Hacker Tiên Đồng Nghệ An", "Welcome to my Website! ❤️", "Scroll down to explore 👇"];
     let i = 0;
 
@@ -826,13 +886,14 @@
 
     typingEffect();
 
-    // Cập nhật giờ thực tế & Lời chào theo buổi trong ngày
+    // Cập nhật giờ thực tế có GIÂY & Lời chào theo buổi trong ngày
     function updateClock() {
       const now = new Date();
       const hours = now.getHours();
       const hStr = String(hours).padStart(2, '0');
       const mStr = String(now.getMinutes()).padStart(2, '0');
-      const timeStr = `${hStr}:${mStr}`;
+      const sStr = String(now.getSeconds()).padStart(2, '0');
+      const timeStr = `${hStr}:${mStr}:${sStr}`;
 
       let text = "⛅️Good Day!";
       let iconClass = "fa-solid fa-cloud-sun";
