@@ -23,7 +23,7 @@
 
     [data-theme="light"] {
       --bg: #f8fafc;
-      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
       --card-hover: rgba(255, 255, 255, 1);
       --text-main: #0f172a;
       --text-sub: #64748b;
@@ -53,7 +53,6 @@
       transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    /* Hiệu ứng nền Aurora */
     body::before {
       content: '';
       position: fixed;
@@ -573,11 +572,11 @@
       transform: translateY(-1px);
     }
 
-    /* IPA Cards */
+    /* IPA Cards - Bố cục kiểu Shopee Card theo đúng ảnh mẫu yêu cầu[span_1](start_span)[span_1](end_span) */
     .ipa-list {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
       margin-bottom: 32px;
     }
 
@@ -587,7 +586,7 @@
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 20px;
+      overflow: hidden;
       position: relative;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -599,90 +598,153 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px var(--primary-glow);
     }
 
-    .ipa-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      gap: 12px;
+    /* Khung ảnh tràn viền phía trên có Badge */
+    .ipa-banner-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
     }
 
-    .ipa-thumb-wrap {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-    }
-
-    .ipa-thumb {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
+    .ipa-banner-img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.5s ease;
     }
 
-    .ipa-thumb-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
+    .ipa-card:hover .ipa-banner-img {
+      transform: scale(1.04);
+    }
+
+    /* Icon thay thế nếu không có ảnh */
+    .ipa-banner-icon {
+      width: 100%;
+      height: 100%;
       background: linear-gradient(135deg, #6366f1, #4f46e5);
-      color: #ffffff;
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      font-size: 54px;
     }
 
-    .ipa-thumb-delta {
+    .ipa-banner-icon.ipa-thumb-delta {
       background: linear-gradient(135deg, #059669, #10b981);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
     }
 
-    .ipa-thumb-pubg {
+    .ipa-banner-icon.ipa-thumb-pubg {
       background: linear-gradient(135deg, #d97706, #f59e0b);
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
     }
 
-    .ipa-thumb-frame {
+    .ipa-banner-icon.ipa-thumb-frame {
       background: linear-gradient(135deg, #ec4899, #8b5cf6);
-      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+    }
+
+    .ipa-badge-top {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 2;
+    }
+
+    /* Nội dung bên trong Card */
+    .ipa-content {
+      padding: 18px;
+    }
+
+    .ipa-subtitle {
+      font-size: 12px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .ipa-name {
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 800;
       color: var(--text-main);
-      letter-spacing: -0.2px;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
 
-    .ipa-meta {
-      font-size: 12px;
+    .ipa-stats-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #f59e0b;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .ipa-desc {
+      font-size: 13px;
       color: var(--text-sub);
-      margin-top: 3px;
-      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 14px;
     }
 
-    /* Định nghĩa nút hành động mới */
+    .ipa-price {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--text-main), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Footer Card (Đánh giá sao & Nút hành động) */
+    .ipa-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .ipa-rating {
+      color: #fbbf24;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ipa-rating span {
+      color: var(--text-sub);
+      font-weight: 500;
+      margin-left: 4px;
+    }
+
+    /* Nút hành động */
     .ipa-action-btn {
       background: var(--badge-bg);
       border: 1px solid var(--border);
       color: var(--text-main);
       font-size: 12px;
       font-weight: 700;
-      padding: 9px 14px;
+      padding: 9px 16px;
       border-radius: 12px;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      flex-shrink: 0;
       transition: all 0.25s ease;
       white-space: nowrap;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -708,23 +770,6 @@
       color: white;
       border-color: #ff334b;
       box-shadow: 0 4px 15px rgba(255, 51, 75, 0.4);
-    }
-
-    .ipa-tags {
-      display: flex;
-      gap: 6px;
-      margin-top: 14px;
-      flex-wrap: wrap;
-    }
-
-    .ipa-tag {
-      font-size: 11px;
-      padding: 5px 10px;
-      border-radius: 8px;
-      background: var(--badge-bg);
-      border: 1px solid var(--border);
-      color: var(--text-sub);
-      font-weight: 600;
     }
 
     /* Dark CTA Section */
@@ -840,11 +885,11 @@
     <source src="https://files.catbox.moe/hv7p5t.m4a" type="audio/mpeg">
   </audio>
 
-  <!-- Màn hình chờ (Splash Screen) -->
+  <!-- Màn hình chờ -->
   <div id="splash-screen">
     <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="Avatar" class="splash-avatar">
     <div class="splash-title">THANHCONGDEV.SYSTEM</div>
-    <div class="splash-sub" style="font-size: 12px; color: var(--text-sub);">Đang đồng bộ giao diện & hiệu ứng...</div>
+    <div class="splash-sub" style="font-size: 12px; color: var(--text-sub);">Đang tải bố cục Shopee Card...</div>
     <div class="loader-bar">
       <div class="loader-progress"></div>
     </div>
@@ -953,159 +998,159 @@
       <span class="tag">Hỗ Trợ 24/7</span>
     </div>
 
-    <!-- IPA List -->
+    <!-- IPA List dạng Shopee Card Layout[span_2](start_span)[span_2](end_span) -->
     <div class="section-label" id="kho-ipa">DỊCH VỤ NỔI BẬT</div>
     <div class="ipa-list">
 
-      <!-- Item 1 (Locket -> Get Link Nhận Module) -->
+      <!-- Item 1: Locket (Get Link Nhận Module) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <div class="ipa-thumb-icon ipa-thumb-frame"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-            <div>
-              <div class="ipa-name">Đổi Khung Locket Free (Filter VIP)</div>
-              <div class="ipa-meta">Miễn phí cho thành viên Filter VIP</div>
-            </div>
-          </div>
-          <a href="https://khunglocket.com/" target="_blank" class="ipa-action-btn locket-btn">Get Link Nhận Module</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-fire"></i> Bán Chạy</div>
+          <div class="ipa-banner-icon ipa-thumb-frame"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">Locket</span>
-          <span class="ipa-tag">Free 100%</span>
-          <span class="ipa-tag">VIP Exclusive</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">ĐỔI KHUNG LOCKET FREE</div>
+          <div class="ipa-name">Đổi Khung Locket Free (Filter VIP)</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 680 lượt</div>
+          <p class="ipa-desc">Miễn phí cho thành viên sở hữu gói Filter VIP, trải nghiệm bộ khung độc quyền cực kỳ bắt mắt.</p>
+          <div class="ipa-price">Miễn phí 100%</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(5xx)</span></div>
+            <a href="https://khunglocket.com/" target="_blank" class="ipa-action-btn locket-btn">Get Link Nhận Module</a>
+          </div>
         </div>
       </div>
 
-      <!-- Item 2 (Shadowrocket -> Nhận) -->
+      <!-- Item 2: Shadowrocket (Nhận) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <img src="https://cdn.phototourl.com/member/2026-11-09-c227b09f-eaa7-45eb-93bd-2c0ae743e5b3.jpg" alt="Shadowrocket" class="ipa-thumb">
-            <div>
-              <div class="ipa-name">Shadowrocket</div>
-              <div class="ipa-meta">Giá: 10k / lượt</div>
-            </div>
-          </div>
-          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-bolt"></i> Phổ Biến</div>
+          <img src="https://cdn.phototourl.com/member/2026-11-09-c227b09f-eaa7-45eb-93bd-2c0ae743e5b3.jpg" alt="Shadowrocket" class="ipa-banner-img">
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">iOS</span>
-          <span class="ipa-tag">10k / Lượt</span>
-          <span class="ipa-tag">Ủy Quyền Apple ID</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">TIỆN ÍCH IOS</div>
+          <div class="ipa-name">Shadowrocket</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 520 lượt</div>
+          <p class="ipa-desc">Ứng dụng quản lý kết nối mạng mạnh mẽ trên iOS. Hỗ trợ ủy quyền Apple ID tải siêu nhanh.</p>
+          <div class="ipa-price">10.000 đ / lượt</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(4xx)</span></div>
+            <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+          </div>
         </div>
       </div>
 
-      <!-- Item 3 (Liên Quân -> Nhận) -->
+      <!-- Item 3: Liên Quân Mobile Hack (Nhận) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <img src="https://cdn.phototourl.com/member/2026-11-09-65cd2380-4336-419d-ad9c-0f5a06c82043.jpg" alt="Liên Quân" class="ipa-thumb">
-            <div>
-              <div class="ipa-name">Liên Quân Mobile Hack</div>
-              <div class="ipa-meta">Bản Menu Hack NoKey</div>
-            </div>
-          </div>
-          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-crown"></i> VIP Menu</div>
+          <img src="https://cdn.phototourl.com/member/2026-11-09-65cd2380-4336-419d-ad9c-0f5a06c82043.jpg" alt="Liên Quân" class="ipa-banner-img">
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">iOS 50K/Năm</span>
-          <span class="ipa-tag">Menu VIP</span>
-          <span class="ipa-tag">ESP / Minimap</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">GAME MOD MENU</div>
+          <div class="ipa-name">Liên Quân Mobile Hack</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 390 lượt</div>
+          <p class="ipa-desc">Bản Menu Hack NoKey tích hợp ESP, Minimap cực mượt. Mua 1 lần dùng đến khi update.</p>
+          <div class="ipa-price">50.000 đ / năm</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(3xx)</span></div>
+            <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+          </div>
         </div>
       </div>
 
-      <!-- Item 4 (Locket Gold -> Get Link Nhận Module) -->
+      <!-- Item 4: Locket Gold (Get Link Nhận Module) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <img src="https://cdn.phototourl.com/member/2026-11-09-51badb16-0805-4b9d-8b0f-44a86d156c5d.jpg" alt="Locket Gold" class="ipa-thumb">
-            <div>
-              <div class="ipa-name">Locket Gold 60s Có Filter</div>
-              <div class="ipa-meta">Cài DNS, Shadowrocket</div>
-            </div>
-          </div>
-          <a href="https://link4m.net/go/sS1zG" target="_blank" class="ipa-action-btn locket-btn">Get Link Nhận Module</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-fire"></i> Hot Hit</div>
+          <img src="https://cdn.phototourl.com/member/2026-11-09-51badb16-0805-4b9d-8b0f-44a86d156c5d.jpg" alt="Locket Gold" class="ipa-banner-img">
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">iOS</span>
-          <span class="ipa-tag">Gold 30-120k</span>
-          <span class="ipa-tag">Cam 60s + Filter</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">LOCKET GOLD VIP</div>
+          <div class="ipa-name">Locket Gold 60s Có Filter</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 750 lượt</div>
+          <p class="ipa-desc">Cài DNS, Shadowrocket mở khóa Gold 30s-60s kèm âm thanh và 49+ Filter VIP update liên tục.</p>
+          <div class="ipa-price">Chỉ từ 30.000 đ</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(6xx)</span></div>
+            <a href="https://link4m.net/go/sS1zG" target="_blank" class="ipa-action-btn locket-btn">Get Link Nhận Module</a>
+          </div>
         </div>
       </div>
 
-      <!-- Item 5 (YouTube -> Nhận) -->
+      <!-- Item 5: YouTube Premium (Nhận) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <img src="https://cdn.phototourl.com/member/2026-11-09-d0fda36e-a49f-4458-87db-94db642765dd.jpg" alt="YouTube" class="ipa-thumb">
-            <div>
-              <div class="ipa-name">YouTube Premium IPA</div>
-              <div class="ipa-meta">Cài đặt qua Sideloadly / ESign</div>
-            </div>
-          </div>
-          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-shield"></i> Premium</div>
+          <img src="https://cdn.phototourl.com/member/2026-11-09-d0fda36e-a49f-4458-87db-94db642765dd.jpg" alt="YouTube" class="ipa-banner-img">
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">iOS</span>
-          <span class="ipa-tag">Chạy nền</span>
-          <span class="ipa-tag">Chặn QC</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">GIẢI TRÍ KHÔNG QUẢNG CÁO</div>
+          <div class="ipa-name">YouTube Premium IPA</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 450 lượt</div>
+          <p class="ipa-desc">Chạy nền, chặn quảng cáo hoàn toàn. Cài đặt đơn giản qua Sideloadly hoặc ESign.</p>
+          <div class="ipa-price">Liên hệ Admin</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(4xx)</span></div>
+            <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+          </div>
         </div>
       </div>
 
-      <!-- Item 6 (Chứng Chỉ -> Nhận) -->
+      <!-- Item 6: Chứng Chỉ Cá Nhân (Nhận) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <div class="ipa-thumb-icon"><i class="fa-brands fa-apple"></i></div>
-            <div>
-              <div class="ipa-name">Chứng Chỉ iPhone Cá Nhân</div>
-              <div class="ipa-meta">Giá: 79k / năm</div>
-            </div>
-          </div>
-          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-apple-whole"></i> Độc Quyền</div>
+          <div class="ipa-banner-icon"><i class="fa-brands fa-apple"></i></div>
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">iOS / iPadOS</span>
-          <span class="ipa-tag">79k / Năm</span>
-          <span class="ipa-tag">Không Thu Hồi</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">CHỨNG CHỈ IOS</div>
+          <div class="ipa-name">Chứng Chỉ iPhone Cá Nhân</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 890 lượt</div>
+          <p class="ipa-desc">Cài đặt file IPA không lo thu hồi. Hỗ trợ toàn bộ dòng máy iPhone / iPadOS.</p>
+          <div class="ipa-price">79.000 đ / năm</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(8xx)</span></div>
+            <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+          </div>
         </div>
       </div>
 
-      <!-- Item 7 (Delta Force -> Nhận) -->
+      <!-- Item 7: Delta Force (Nhận) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <div class="ipa-thumb-icon ipa-thumb-delta"><i class="fa-solid fa-crosshairs"></i></div>
-            <div>
-              <div class="ipa-name">Delta Force Menu Hack Vĩnh Viễn</div>
-              <div class="ipa-meta">Giá: 99k / vĩnh viễn</div>
-            </div>
-          </div>
-          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-crosshairs"></i> Hot Game</div>
+          <div class="ipa-banner-icon ipa-thumb-delta"><i class="fa-solid fa-crosshairs"></i></div>
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">iOS</span>
-          <span class="ipa-tag">99k / Vĩnh Viễn</span>
-          <span class="ipa-tag">ESP / Aimbot</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">GAME MENU HACK</div>
+          <div class="ipa-name">Delta Force Menu Hack Vĩnh Viễn</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 310 lượt</div>
+          <p class="ipa-desc">Menu ESP, Aimbot tích hợp chống ban thông minh. Sử dụng vĩnh viễn không giới hạn.</p>
+          <div class="ipa-price">99.000 đ / vĩnh viễn</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(2xx)</span></div>
+            <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+          </div>
         </div>
       </div>
 
-      <!-- Item 8 (PUBG -> Nhận) -->
+      <!-- Item 8: PUBG Mobile (Nhận) -->
       <div class="ipa-card">
-        <div class="ipa-header">
-          <div class="ipa-thumb-wrap">
-            <div class="ipa-thumb-icon ipa-thumb-pubg"><i class="fa-solid fa-gun"></i></div>
-            <div>
-              <div class="ipa-name">PUBG Menu Hack Vĩnh Viễn</div>
-              <div class="ipa-meta">Giá: 99k / vĩnh viễn</div>
-            </div>
-          </div>
-          <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+        <div class="ipa-banner-wrap">
+          <div class="ipa-badge-top"><i class="fa-solid fa-gun"></i> Top Game</div>
+          <div class="ipa-banner-icon ipa-thumb-pubg"><i class="fa-solid fa-gun"></i></div>
         </div>
-        <div class="ipa-tags">
-          <span class="ipa-tag">iOS</span>
-          <span class="ipa-tag">99k / Vĩnh Viễn</span>
-          <span class="ipa-tag">Menu VIP / No Recoil</span>
+        <div class="ipa-content">
+          <div class="ipa-subtitle">GAME MENU HACK</div>
+          <div class="ipa-name">PUBG Menu Hack Vĩnh Viễn</div>
+          <div class="ipa-stats-row"><i class="fa-solid fa-fire"></i> Đã bán: 610 lượt</div>
+          <p class="ipa-desc">Menu VIP, No Recoil, Wallhack hỗ trợ leo rank thần tốc, bảo hành vĩnh viễn.</p>
+          <div class="ipa-price">99.000 đ / vĩnh viễn</div>
+          <div class="ipa-footer-row">
+            <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(5xx)</span></div>
+            <a href="https://t.me/thanhconggdev" target="_blank" class="ipa-action-btn">Nhận</a>
+          </div>
         </div>
       </div>
 
@@ -1173,7 +1218,6 @@
       }, { once: true });
     });
 
-    // Hiệu ứng gõ chữ
     const words = ["I'm a Developer", "Top 1 Hacker Tiên Đồng Nghệ An", "Welcome to my Website! ❤️", "Scroll down to explore 👇"];
     let i = 0;
 
@@ -1209,7 +1253,6 @@
 
     typingEffect();
 
-    // Cập nhật giờ và lời chào
     function updateClock() {
       const now = new Date();
       const hours = now.getHours();
@@ -1244,7 +1287,6 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Chuyển đổi Dark/Light Theme
     function toggleTheme() {
       const body = document.body;
       const icon = document.querySelector('#theme-icon i');
