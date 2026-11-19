@@ -985,15 +985,13 @@
 <body data-theme="dark">
 
   <!-- Audio Background -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="https://files.catbox.moe/hv7p5t.m4a" type="audio/mpeg">
-  </audio>
+  <audio id="bg-music" preload="auto"></audio>
 
   <!-- Màn hình chờ -->
   <div id="splash-screen">
     <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="Avatar" class="splash-avatar">
     <div class="splash-title">THANHCONGDEV.SYSTEM</div>
-    <div class="splash-sub" style="font-size: 12px; color: var(--text-sub);">Đang tối ưu giao diện PC & Mobile...</div>
+    <div class="splash-sub" style="font-size: 12px; color: var(--text-sub);">Đang tải nhạc nền ngẫu nhiên & giao diện...</div>
     <div class="loader-bar">
       <div class="loader-progress"></div>
     </div>
@@ -1127,7 +1125,7 @@
         </div>
       </div>
 
-      <!-- Item 2: Code Caption Module Locket Theo Yêu Cầu (Mới thêm) -->
+      <!-- Item 2: Code Caption Module Locket Theo Yêu Cầu -->
       <div class="ipa-card">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-pen-nib"></i> Theo Yêu Cầu</div>
@@ -1285,12 +1283,46 @@
   </div>
 
   <script>
+    // Danh sách nhạc nền (giữ nguyên bài gốc + bổ sung các bài mới, tránh phát lại ngay bài vừa chọn)
+    const playlist = [
+      "https://files.catbox.moe/hv7p5t.m4a",
+      "https://files.catbox.moe/4rtvb5.mp3",
+      "https://files.catbox.moe/kmhxq9.mp3",
+      "https://files.catbox.moe/n2qlcm.mp3",
+      "https://files.catbox.moe/oq9ngn.mp3",
+      "https://files.catbox.moe/ygajjs.mp3",
+      "https://files.catbox.moe/nkv060.mp3",
+      "https://files.catbox.moe/ox0710.mp3"
+    ];
+
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-btn');
     let userPaused = false;
+    let currentTrackIndex = -1;
+
+    function pickRandomTrack(excludeIndex = -1) {
+      if (playlist.length <= 1) return 0;
+      let nextIndex = Math.floor(Math.random() * playlist.length);
+      if (nextIndex === excludeIndex) {
+        nextIndex = (nextIndex + 1) % playlist.length;
+      }
+      return nextIndex;
+    }
+
+    function setRandomTrack(autoPlay = false) {
+      currentTrackIndex = pickRandomTrack(currentTrackIndex);
+      bgMusic.src = playlist[currentTrackIndex];
+      bgMusic.load();
+      if (autoPlay && !userPaused) {
+        playAudio();
+      }
+    }
 
     function playAudio() {
       if (userPaused) return;
+      if (!bgMusic.src) {
+        setRandomTrack(false);
+      }
       bgMusic.play().then(() => {
         musicBtn.classList.add('music-playing');
         musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
@@ -1300,9 +1332,7 @@
     function toggleMusic() {
       if (bgMusic.paused) {
         userPaused = false;
-        bgMusic.play();
-        musicBtn.classList.add('music-playing');
-        musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
+        playAudio();
       } else {
         userPaused = true;
         bgMusic.pause();
@@ -1311,7 +1341,15 @@
       }
     }
 
+    // Hết bài hiện tại -> tự động chuyển sang bài ngẫu nhiên tiếp theo
+    bgMusic.addEventListener('ended', () => {
+      if (!userPaused) {
+        setRandomTrack(true);
+      }
+    });
+
     window.addEventListener('load', () => {
+      setRandomTrack(false);
       playAudio();
       setTimeout(() => {
         document.getElementById('splash-screen').classList.add('hidden');
