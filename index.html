@@ -985,7 +985,7 @@
 <body data-theme="dark">
 
   <!-- Audio Background -->
-  <audio id="bg-music" preload="auto"></audio>
+  <audio id="bg-music" autoplay playsinline preload="auto"></audio>
 
   <!-- Màn hình chờ -->
   <div id="splash-screen">
@@ -1283,7 +1283,6 @@
   </div>
 
   <script>
-    // Danh sách nhạc nền (giữ nguyên bài gốc + bổ sung các bài mới, tránh phát lại ngay bài vừa chọn)
     const playlist = [
       "https://files.catbox.moe/hv7p5t.m4a",
       "https://files.catbox.moe/4rtvb5.mp3",
@@ -1300,6 +1299,16 @@
     let userPaused = false;
     let currentTrackIndex = -1;
 
+    function updateMusicUI(isPlaying) {
+      if (isPlaying) {
+        musicBtn.classList.add('music-playing');
+        musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
+      } else {
+        musicBtn.classList.remove('music-playing');
+        musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      }
+    }
+
     function pickRandomTrack(excludeIndex = -1) {
       if (playlist.length <= 1) return 0;
       let nextIndex = Math.floor(Math.random() * playlist.length);
@@ -1309,7 +1318,7 @@
       return nextIndex;
     }
 
-    function setRandomTrack(autoPlay = false) {
+    function setRandomTrack(autoPlay = true) {
       currentTrackIndex = pickRandomTrack(currentTrackIndex);
       bgMusic.src = playlist[currentTrackIndex];
       bgMusic.load();
@@ -1324,9 +1333,10 @@
         setRandomTrack(false);
       }
       bgMusic.play().then(() => {
-        musicBtn.classList.add('music-playing');
-        musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
-      }).catch(() => {});
+        updateMusicUI(true);
+      }).catch(() => {
+        updateMusicUI(false);
+      });
     }
 
     function toggleMusic() {
@@ -1336,32 +1346,42 @@
       } else {
         userPaused = true;
         bgMusic.pause();
-        musicBtn.classList.remove('music-playing');
-        musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+        updateMusicUI(false);
       }
     }
 
-    // Hết bài hiện tại -> tự động chuyển sang bài ngẫu nhiên tiếp theo
+    // Chọn bài ngẫu nhiên ngay khi script chạy để sẵn sàng tự phát
+    setRandomTrack(false);
+
+    bgMusic.addEventListener('play', () => updateMusicUI(true));
+    bgMusic.addEventListener('pause', () => updateMusicUI(false));
+
     bgMusic.addEventListener('ended', () => {
       if (!userPaused) {
         setRandomTrack(true);
       }
     });
 
+    window.addEventListener('DOMContentLoaded', () => {
+      playAudio();
+    });
+
     window.addEventListener('load', () => {
-      setRandomTrack(false);
       playAudio();
       setTimeout(() => {
         document.getElementById('splash-screen').classList.add('hidden');
+        playAudio();
       }, 1200);
     });
 
-    ['click', 'touchstart', 'scroll'].forEach(evt => {
-      document.addEventListener(evt, () => {
-        if (bgMusic.paused && !userPaused) {
-          playAudio();
-        }
-      }, { once: true });
+    function unlockAudioOnInteraction() {
+      if (bgMusic.paused && !userPaused) {
+        playAudio();
+      }
+    }
+
+    ['pointerdown', 'click', 'touchstart', 'scroll', 'keydown'].forEach(evt => {
+      document.addEventListener(evt, unlockAudioOnInteraction, { once: true, passive: true });
     });
 
     const words = ["I'm a Developer", "Top 1 Hacker Tiên Đồng Nghệ An", "Welcome to my Website! ❤️", "Scroll down to explore 👇"];
