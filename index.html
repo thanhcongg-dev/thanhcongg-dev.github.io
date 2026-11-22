@@ -178,7 +178,7 @@
       }
     }
 
-    /* Màn hình chờ (Splash Screen) - 0.5s */
+    /* Màn hình chờ (Splash Screen) - Tắt chắc chắn sau 0.5s */
     #splash-screen {
       position: fixed;
       inset: 0;
@@ -189,12 +189,13 @@
       justify-content: center;
       z-index: 9999;
       color: #fff;
-      transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.28s;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
     }
 
     #splash-screen.hidden {
       opacity: 0;
       visibility: hidden;
+      pointer-events: none;
     }
 
     .splash-avatar {
@@ -231,7 +232,7 @@
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, var(--primary), var(--gold), var(--accent));
-      animation: loadProgress 0.45s ease forwards;
+      animation: loadProgress 0.45s linear forwards;
     }
 
     @keyframes loadProgress {
@@ -423,7 +424,6 @@
       justify-content: center;
     }
 
-    /* Mũ ông già Noel đội trên avatar */
     .santa-hat {
       position: absolute;
       top: -18px;
@@ -1222,7 +1222,7 @@
   <div id="snow-layer" aria-hidden="true"></div>
 
   <!-- Audio Background (Chỉ phát duy nhất 1 bài Giáng sinh) -->
-  <audio id="bg-music" src="https://files.catbox.moe/z6zos6.mp3" autoplay loop playsinline preload="auto"></audio>
+  <audio id="bg-music" src="https://files.catbox.moe/z6zos6.mp3" autoplay loop playsinline preload="none"></audio>
 
   <!-- Màn hình chờ (0.5s) -->
   <div id="splash-screen">
@@ -1545,12 +1545,28 @@
     const CHRISTMAS_MUSIC_URL = "https://files.catbox.moe/z6zos6.mp3";
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-btn');
+    const splashEl = document.getElementById('splash-screen');
     let userPaused = false;
+    let greetingStarted = false;
 
-    bgMusic.src = CHRISTMAS_MUSIC_URL;
-    bgMusic.loop = true;
+    function hideSplashAndStart() {
+      if (splashEl) {
+        splashEl.classList.add('hidden');
+        setTimeout(() => {
+          splashEl.style.display = 'none';
+        }, 220);
+      }
+      if (!greetingStarted) {
+        greetingStarted = true;
+        startAutoGreetingSequence();
+      }
+    }
+
+    // Đếm 0.5s ngay lập tức từ lúc script chạy, không phụ thuộc window.load
+    setTimeout(hideSplashAndStart, 500);
 
     function updateMusicUI(isPlaying) {
+      if (!musicBtn) return;
       if (isPlaying) {
         musicBtn.classList.add('music-playing');
         musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
@@ -1561,7 +1577,10 @@
     }
 
     function playChristmasMusic() {
-      if (userPaused) return;
+      if (userPaused || !bgMusic) return;
+      if (bgMusic.preload !== 'auto') {
+        bgMusic.preload = 'auto';
+      }
       if (!bgMusic.src || !bgMusic.src.includes(CHRISTMAS_MUSIC_URL)) {
         bgMusic.src = CHRISTMAS_MUSIC_URL;
       }
@@ -1573,6 +1592,7 @@
     }
 
     function toggleMusic() {
+      if (!bgMusic) return;
       if (bgMusic.paused) {
         userPaused = false;
         playChristmasMusic();
@@ -1583,24 +1603,15 @@
       }
     }
 
-    bgMusic.addEventListener('play', () => updateMusicUI(true));
-    bgMusic.addEventListener('pause', () => updateMusicUI(false));
+    if (bgMusic) {
+      bgMusic.addEventListener('play', () => updateMusicUI(true));
+      bgMusic.addEventListener('pause', () => updateMusicUI(false));
+    }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      playChristmasMusic();
-    });
-
-    window.addEventListener('load', () => {
-      playChristmasMusic();
-      setTimeout(() => {
-        document.getElementById('splash-screen').classList.add('hidden');
-        playChristmasMusic();
-        startAutoGreetingSequence();
-      }, 500);
-    });
+    playChristmasMusic();
 
     function unlockAudioOnInteraction() {
-      if (bgMusic.paused && !userPaused) {
+      if (bgMusic && bgMusic.paused && !userPaused) {
         playChristmasMusic();
       }
     }
