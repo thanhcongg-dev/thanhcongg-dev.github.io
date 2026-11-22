@@ -77,7 +77,7 @@
       100% { transform: scale(1.05) translate(-2%, -2%); }
     }
 
-    /* Màn hình chờ (Splash Screen) */
+    /* Màn hình chờ (Splash Screen) - 0.5s */
     #splash-screen {
       position: fixed;
       inset: 0;
@@ -88,7 +88,7 @@
       justify-content: center;
       z-index: 9999;
       color: #fff;
-      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+      transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.28s;
     }
 
     #splash-screen.hidden {
@@ -104,7 +104,7 @@
       border: 2px solid var(--primary);
       margin-bottom: 20px;
       box-shadow: 0 0 30px var(--primary-glow);
-      animation: pulseSplash 1.5s ease-in-out infinite alternate;
+      animation: pulseSplash 0.8s ease-in-out infinite alternate;
     }
 
     .splash-title {
@@ -130,7 +130,7 @@
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, var(--primary), var(--accent));
-      animation: loadProgress 1.1s ease forwards;
+      animation: loadProgress 0.45s ease forwards;
     }
 
     @keyframes loadProgress {
@@ -146,7 +146,7 @@
       width: 100%;
       max-width: 480px;
       z-index: 1;
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       transition: max-width 0.35s ease;
     }
 
@@ -232,6 +232,12 @@
                   transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
                   margin-right 0.72s cubic-bezier(0.22, 1, 0.36, 1);
       margin-right: 2px;
+    }
+
+    .greeting-phrase.swapping {
+      opacity: 0;
+      filter: blur(3px);
+      transform: translateX(-6px) scale(0.97);
     }
 
     .top-pill.collapsed .greeting-phrase {
@@ -1059,7 +1065,7 @@
   <!-- Audio Background -->
   <audio id="bg-music" autoplay playsinline preload="auto"></audio>
 
-  <!-- Màn hình chờ -->
+  <!-- Màn hình chờ (0.5s) -->
   <div id="splash-screen">
     <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="Avatar" class="splash-avatar">
     <div class="splash-title">THANHCONGDEV.SYSTEM</div>
@@ -1072,8 +1078,8 @@
   <div class="container">
     <!-- Navbar -->
     <nav class="nav">
-      <div class="top-pill expanded" id="greeting-pill" title="Bấm để xem lại lời chào">
-        <span class="greeting-phrase" id="greeting-phrase">Ăn Sáng Chưa Thằng Em</span>
+      <div class="top-pill expanded" id="greeting-pill" title="Bấm để xem lại 2 câu chào">
+        <span class="greeting-phrase" id="greeting-phrase">Chào Buổi Sáng ⛅️</span>
         <span class="greeting-time" id="greeting-time">10:01:51</span>
         <i class="fa-solid fa-sun"></i>
       </div>
@@ -1464,7 +1470,7 @@
       setTimeout(() => {
         document.getElementById('splash-screen').classList.add('hidden');
         playAudio();
-      }, 1200);
+      }, 500);
     });
 
     function unlockAudioOnInteraction() {
@@ -1517,37 +1523,92 @@
     const greetingTimeEl = document.getElementById('greeting-time');
     const greetingIconEl = greetingPill.querySelector('i');
 
-    function getGreetingByPeriod(hours) {
+    function getTwoGreetingsByPeriod(hours) {
       if (hours >= 5 && hours < 11) {
-        return { period: 'morning', text: 'Ăn Sáng Chưa Thằng Em', icon: 'fa-solid fa-sun' };
+        return {
+          period: 'morning',
+          phrases: [
+            { text: 'Chào Buổi Sáng ⛅️', icon: 'fa-solid fa-sun' },
+            { text: 'Ăn Sáng Chưa Thằng Em', icon: 'fa-solid fa-sun' }
+          ]
+        };
       }
       if (hours >= 11 && hours < 14) {
-        return { period: 'noon', text: 'Ăn Trưa Chưa Thằng Em', icon: 'fa-solid fa-sun' };
+        return {
+          period: 'noon',
+          phrases: [
+            { text: 'Chào Buổi Trưa 🌤️', icon: 'fa-solid fa-cloud-sun' },
+            { text: 'Ăn Trưa Chưa Thằng Em', icon: 'fa-solid fa-sun' }
+          ]
+        };
       }
       if (hours >= 14 && hours < 18) {
-        return { period: 'afternoon', text: 'Chào Buổi Chiều', icon: 'fa-solid fa-cloud-sun' };
+        return {
+          period: 'afternoon',
+          phrases: [
+            { text: 'Chào Buổi Chiều 🌅', icon: 'fa-solid fa-cloud-sun' },
+            { text: 'Cày Code Tiếp Thôi', icon: 'fa-solid fa-bolt' }
+          ]
+        };
       }
       if (hours >= 18 && hours < 23) {
-        return { period: 'evening', text: 'Ăn Tối Chưa Thằng Em', icon: 'fa-solid fa-moon' };
+        return {
+          period: 'evening',
+          phrases: [
+            { text: 'Chào Buổi Tối 🌃', icon: 'fa-solid fa-moon' },
+            { text: 'Ăn Tối Chưa Thằng Em', icon: 'fa-solid fa-utensils' }
+          ]
+        };
       }
-      return { period: 'night', text: 'Khuya Rồi Ngủ Đi', icon: 'fa-solid fa-moon' };
+      return {
+        period: 'night',
+        phrases: [
+          { text: 'Khuya Rồi Ngủ Đi 💤🌙', icon: 'fa-solid fa-moon' },
+          { text: 'Vẫn Thức À Thằng Em', icon: 'fa-solid fa-star' }
+        ]
+      };
     }
 
     let currentPeriod = '';
-    let collapseTimer = null;
+    let stepTimers = [];
 
-    function showGreetingOnce(greetingInfo, holdMs = 5200) {
-      clearTimeout(collapseTimer);
-      greetingPhraseEl.textContent = greetingInfo.text;
-      greetingIconEl.className = greetingInfo.icon;
+    function clearGreetingTimers() {
+      stepTimers.forEach(t => clearTimeout(t));
+      stepTimers = [];
+    }
 
+    function setPhraseSmoothly(phraseObj) {
+      greetingPhraseEl.classList.add('swapping');
+      const swapTimer = setTimeout(() => {
+        greetingPhraseEl.textContent = phraseObj.text;
+        greetingIconEl.className = phraseObj.icon;
+        greetingPhraseEl.classList.remove('swapping');
+      }, 220);
+      stepTimers.push(swapTimer);
+    }
+
+    function playTwoGreetingsThenCollapse(info, eachHoldMs = 2600) {
+      clearGreetingTimers();
+
+      // Câu 1
+      greetingPhraseEl.classList.remove('swapping');
+      greetingPhraseEl.textContent = info.phrases[0].text;
+      greetingIconEl.className = info.phrases[0].icon;
       greetingPill.classList.remove('collapsed');
       greetingPill.classList.add('expanded');
 
-      collapseTimer = setTimeout(() => {
+      // Chuyển sang câu 2
+      const t1 = setTimeout(() => {
+        setPhraseSmoothly(info.phrases[1]);
+      }, eachHoldMs);
+
+      // Sau khi hiện đủ câu 2 thì thu gọn mượt mà lại
+      const t2 = setTimeout(() => {
         greetingPill.classList.remove('expanded');
         greetingPill.classList.add('collapsed');
-      }, holdMs);
+      }, eachHoldMs * 2);
+
+      stepTimers.push(t1, t2);
     }
 
     function updateClock() {
@@ -1558,16 +1619,16 @@
       const sStr = String(now.getSeconds()).padStart(2, '0');
       greetingTimeEl.textContent = `${hStr}:${mStr}:${sStr}`;
 
-      const info = getGreetingByPeriod(hours);
+      const info = getTwoGreetingsByPeriod(hours);
       if (info.period !== currentPeriod) {
         currentPeriod = info.period;
-        showGreetingOnce(info, 5200);
+        playTwoGreetingsThenCollapse(info, 2600);
       }
     }
 
     greetingPill.addEventListener('click', () => {
-      const info = getGreetingByPeriod(new Date().getHours());
-      showGreetingOnce(info, 4500);
+      const info = getTwoGreetingsByPeriod(new Date().getHours());
+      playTwoGreetingsThenCollapse(info, 2400);
     });
 
     setInterval(updateClock, 1000);
