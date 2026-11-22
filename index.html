@@ -58,7 +58,6 @@
       transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    /* Hiệu ứng nền Noel Aurora + Đèn nháy lễ hội */
     body::before {
       content: '';
       position: fixed;
@@ -80,7 +79,6 @@
       100% { transform: scale(1.05) translate(-2%, -2%); }
     }
 
-    /* Dây đèn Giáng sinh trên đầu trang */
     .xmas-lights {
       position: fixed;
       top: 0;
@@ -142,7 +140,6 @@
       100% { opacity: 1; transform: scale(1.08); }
     }
 
-    /* Lớp tuyết rơi */
     #snow-layer {
       position: fixed;
       inset: 0;
@@ -183,7 +180,6 @@
       }
     }
 
-    /* Tia sáng & tuyết bung khi chạm/rê chuột */
     .sparkle-burst {
       position: fixed;
       pointer-events: none;
@@ -206,7 +202,6 @@
       }
     }
 
-    /* Màn hình chờ (Splash Screen) - Tắt chắc chắn sau 0.5s */
     #splash-screen {
       position: fixed;
       inset: 0;
@@ -285,7 +280,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Navbar */
     .nav {
       display: flex;
       justify-content: space-between;
@@ -443,7 +437,6 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Mini trạng thái nhạc Noel */
     .music-status-bar {
       display: inline-flex;
       align-items: center;
@@ -482,7 +475,6 @@
       to { transform: scale(1.25); opacity: 1; }
     }
 
-    /* Hero Section */
     .hero {
       text-align: center;
       display: flex;
@@ -667,7 +659,6 @@
       50% { opacity: 0; }
     }
 
-    /* Stats Grid */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -742,6 +733,7 @@
       gap: 8px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
     }
 
     .btn-primary {
@@ -770,7 +762,6 @@
       background: var(--card-hover);
     }
 
-    /* Section divider */
     .section-label {
       font-size: 11px;
       font-weight: 800;
@@ -795,7 +786,6 @@
       background: linear-gradient(90deg, rgba(251, 191, 36, 0.35), var(--border));
     }
 
-    /* Social Profile Links Grid */
     .social-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -846,7 +836,6 @@
     .bg-tiktok { background: linear-gradient(135deg, #000000, #222222); border: 1px solid rgba(255,255,255,0.1); }
     .bg-facebook { background: linear-gradient(135deg, #0866ff, #2b86ff); }
 
-    /* Quick copy bar */
     .quick-copy-row {
       display: flex;
       flex-wrap: wrap;
@@ -881,7 +870,6 @@
       background: rgba(16, 185, 129, 0.14);
     }
 
-    /* Tags */
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -907,7 +895,6 @@
       transform: translateY(-1px);
     }
 
-    /* Filter tabs cho danh sách dịch vụ */
     .filter-tabs {
       display: flex;
       flex-wrap: wrap;
@@ -939,7 +926,6 @@
       box-shadow: 0 4px 14px var(--primary-glow);
     }
 
-    /* Card Layout cho dịch vụ */
     .ipa-list {
       display: grid;
       grid-template-columns: 1fr;
@@ -1118,6 +1104,7 @@
       transition: all 0.25s ease;
       white-space: nowrap;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      cursor: pointer;
     }
 
     .ipa-action-btn:hover {
@@ -1145,7 +1132,6 @@
       box-shadow: 0 4px 15px rgba(225, 29, 72, 0.38);
     }
 
-    /* Dark CTA Section */
     .cta-card {
       background: linear-gradient(135deg, #102438, #08121e);
       border: 1px solid rgba(251, 191, 36, 0.35);
@@ -1192,7 +1178,6 @@
       padding: 14px;
     }
 
-    /* Footer */
     .footer {
       text-align: center;
       padding-top: 24px;
@@ -1250,7 +1235,6 @@
       font-weight: 500;
     }
 
-    /* Hộp quà Noel nổi góc phải */
     #xmas-gift-btn {
       position: fixed;
       right: 16px;
@@ -1282,38 +1266,40 @@
       50% { transform: translateY(-4px); }
     }
 
-    /* Modal quà Noel */
-    .gift-modal-backdrop {
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.72);
-      backdrop-filter: blur(6px);
+      background: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(8px);
       z-index: 90;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 16px;
+      overflow-y: auto;
     }
 
-    .gift-modal-backdrop.open {
+    .modal-backdrop.open {
       display: flex;
     }
 
-    .gift-modal-card {
+    .modal-card {
       width: 100%;
-      max-width: 390px;
+      max-width: 420px;
       background: linear-gradient(160deg, #13253b, #091320);
-      border: 1px solid rgba(251, 191, 36, 0.45);
+      border: 1px solid rgba(251, 191, 36, 0.48);
       border-radius: 22px;
-      padding: 24px 20px;
+      padding: 22px 18px;
       color: #f8fafc;
       text-align: center;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6), 0 0 26px rgba(225, 29, 72, 0.22);
       position: relative;
-      animation: fadeInUp 0.25s ease;
+      animation: fadeInUp 0.22s ease;
+      max-height: 92vh;
+      overflow-y: auto;
     }
 
-    .gift-modal-close {
+    .modal-close {
       position: absolute;
       top: 12px;
       right: 12px;
@@ -1324,6 +1310,126 @@
       background: rgba(255, 255, 255, 0.06);
       color: #e2e8f0;
       cursor: pointer;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 11px;
+      margin-top: 16px;
+    }
+
+    .choice-btn {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease, border-color 0.2s ease;
+      text-align: left;
+    }
+
+    .choice-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .choice-lazy {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(225, 29, 72, 0.24));
+      border-color: rgba(251, 191, 36, 0.6);
+      color: #fef3c7;
+    }
+
+    .choice-diligent {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(14, 165, 233, 0.18));
+      border-color: rgba(52, 211, 153, 0.5);
+      color: #d1fae5;
+    }
+
+    .tcb-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(225, 29, 72, 0.22), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      margin-top: 6px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 16px rgba(225, 29, 72, 0.25);
+    }
+
+    .tcb-logo-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #e11d48;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 11px;
+      letter-spacing: 0.6px;
+      padding: 4px 8px;
+      border-radius: 7px;
+      box-shadow: 0 0 12px rgba(225, 29, 72, 0.65);
+    }
+
+    .qr-showcase {
+      margin: 10px auto 12px;
+      width: 196px;
+      padding: 8px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.35), rgba(225, 29, 72, 0.35), rgba(16, 185, 129, 0.35));
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 18px rgba(251, 191, 36, 0.25);
+    }
+
+    .qr-showcase img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 11px;
+      background: #ffffff;
+    }
+
+    .bank-box {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 15px;
+      background: rgba(7, 17, 30, 0.78);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      text-align: left;
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+
+    .bank-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .bank-row:last-child {
+      border-bottom: none;
+    }
+
+    .mini-copy-btn {
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      background: rgba(251, 191, 36, 0.14);
+      color: #fde68a;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
     }
 
     .gift-code-box {
@@ -1339,7 +1445,6 @@
       letter-spacing: 0.6px;
     }
 
-    /* BỐ CỤC MÁY TÍNH (Tablet >= 768px & Desktop >= 1024px) */
     @media (min-width: 768px) {
       body {
         padding: 36px 28px 64px;
@@ -1449,19 +1554,15 @@
 </head>
 <body data-theme="dark">
 
-  <!-- Dây đèn Giáng sinh -->
   <div class="xmas-lights" aria-hidden="true">
     <span></span><span></span><span></span><span></span><span></span><span></span>
     <span></span><span></span><span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- Lớp tuyết rơi -->
   <div id="snow-layer" aria-hidden="true"></div>
 
-  <!-- Audio Background (Chỉ phát duy nhất 1 bài Giáng sinh) -->
   <audio id="bg-music" src="https://files.catbox.moe/z6zos6.mp3" autoplay loop playsinline preload="none"></audio>
 
-  <!-- Màn hình chờ (0.5s) -->
   <div id="splash-screen">
     <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="Avatar" class="splash-avatar">
     <div class="splash-title">THANHCONGDEV.CHRISTMAS</div>
@@ -1472,7 +1573,6 @@
   </div>
 
   <div class="container">
-    <!-- Navbar -->
     <nav class="nav">
       <div class="top-pill expanded" id="greeting-pill">
         <span class="greeting-phrase" id="greeting-phrase">Chào Buổi Sáng ⛅️</span>
@@ -1492,13 +1592,11 @@
       </div>
     </nav>
 
-    <!-- Trạng thái nhạc Noel -->
     <div class="music-status-bar hidden-bar" id="music-status-bar">
       <span class="eq-dot"></span>
       <span>♪ Christmas Vibe — Đang phát</span>
     </div>
 
-    <!-- Hero Section -->
     <section class="hero">
       <div class="avatar-box">
         <div class="santa-hat" title="Merry Christmas"><i class="fa-solid fa-hat-cowboy"></i></div>
@@ -1527,7 +1625,6 @@
         <span id="typed-output"></span><span class="cursor"></span>
       </div>
 
-      <!-- Stats Grid -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-value">5xx+</div>
@@ -1551,7 +1648,6 @@
       </div>
     </section>
 
-    <!-- Social Profile Links Grid -->
     <div class="section-label">KẾT NỐI TRỰC TUYẾN</div>
     <div class="social-grid">
       <a href="https://locket.cam/thanhdepzai00" target="_blank" class="social-btn">
@@ -1572,7 +1668,6 @@
       </a>
     </div>
 
-    <!-- Nút copy nhanh thông tin liên hệ -->
     <div class="quick-copy-row">
       <button type="button" class="copy-chip" onclick="copyText('@thanhconggdev', this)">
         <i class="fa-regular fa-copy"></i> <span>Copy Telegram: @thanhconggdev</span>
@@ -1582,7 +1677,6 @@
       </button>
     </div>
 
-    <!-- Tags -->
     <div class="section-label">TÍNH NĂNG & DỊCH VỤ</div>
     <div class="tags">
       <span class="tag">Code Caption Module Locket Theo Yêu Cầu (10k/10 Caption)</span>
@@ -1598,7 +1692,6 @@
       <span class="tag">Hỗ Trợ 24/7</span>
     </div>
 
-    <!-- IPA List -->
     <div class="section-label" id="kho-ipa">DỊCH VỤ NỔI BẬT</div>
     <div class="filter-tabs" role="tablist" aria-label="Lọc dịch vụ">
       <button type="button" class="filter-tab active" data-filter="all" onclick="filterServices('all', this)">Tất cả (9)</button>
@@ -1609,7 +1702,6 @@
 
     <div class="ipa-list" id="ipa-list">
 
-      <!-- Item 1: Locket (Get Link Nhận Module) -->
       <div class="ipa-card" data-category="locket free">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-fire"></i> Bán Chạy</div>
@@ -1623,12 +1715,13 @@
           <div class="ipa-price">Miễn phí 100%</div>
           <div class="ipa-footer-row">
             <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(5xx)</span></div>
-            <a href="https://khunglocket.com/" target="_blank" class="ipa-action-btn locket-btn">Get Link Nhận Module</a>
+            <button type="button" class="ipa-action-btn locket-btn" onclick="openLinkChoiceModal('Đổi Khung Locket Free (Filter VIP)', 'https://khunglocket.com/')">
+              Get Link Nhận Module
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Item 2: Code Caption Module Locket Theo Yêu Cầu -->
       <div class="ipa-card" data-category="locket">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-pen-nib"></i> Theo Yêu Cầu</div>
@@ -1647,7 +1740,6 @@
         </div>
       </div>
 
-      <!-- Item 3: Shadowrocket (Nhận) -->
       <div class="ipa-card" data-category="locket">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-bolt"></i> Phổ Biến</div>
@@ -1666,7 +1758,6 @@
         </div>
       </div>
 
-      <!-- Item 4: Liên Quân Mobile Hack (Nhận) -->
       <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-crown"></i> VIP Menu</div>
@@ -1685,7 +1776,6 @@
         </div>
       </div>
 
-      <!-- Item 5: Locket Gold (Get Link Nhận Module) -->
       <div class="ipa-card" data-category="locket free">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-fire"></i> Hot Hit</div>
@@ -1699,12 +1789,13 @@
           <div class="ipa-price">Chỉ từ 30.000 đ</div>
           <div class="ipa-footer-row">
             <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(6xx)</span></div>
-            <a href="https://link4m.net/go/sS1zG" target="_blank" class="ipa-action-btn locket-btn">Get Link Nhận Module</a>
+            <button type="button" class="ipa-action-btn locket-btn" onclick="openLinkChoiceModal('Locket Gold 60s Có Filter', 'https://link4m.net/go/sS1zG')">
+              Get Link Nhận Module
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Item 6: Goose Goose Duck Hack -->
       <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-gamepad"></i> Game Hot</div>
@@ -1723,7 +1814,6 @@
         </div>
       </div>
 
-      <!-- Item 7: Tốc Chiến Hack -->
       <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-trophy"></i> MOBA VIP</div>
@@ -1742,7 +1832,6 @@
         </div>
       </div>
 
-      <!-- Item 8: PUBG Mobile Menu Vĩnh Viễn -->
       <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-gun"></i> Top Game</div>
@@ -1761,7 +1850,6 @@
         </div>
       </div>
 
-      <!-- Item 9: Block Blast Menu Hack -->
       <div class="ipa-card" data-category="game free">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-gift"></i> Miễn Phí</div>
@@ -1775,14 +1863,15 @@
           <div class="ipa-price">Free</div>
           <div class="ipa-footer-row">
             <div class="ipa-rating">5.0 <i class="fa-solid fa-star"></i><span>(4xx)</span></div>
-            <a href="https://link4m.net/go/y8Gw2ny" target="_blank" class="ipa-action-btn">Nhận</a>
+            <button type="button" class="ipa-action-btn" onclick="openLinkChoiceModal('Block Blast Menu Hack', 'https://link4m.net/go/y8Gw2ny')">
+              Nhận
+            </button>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Dark Call to Action -->
     <div class="cta-card">
       <div class="cta-left">
         <div class="cta-quote">"Kho IPA và các tính năng về Locket Gold cập nhật liên tục, uy tín và hỗ trợ cài đặt nhanh chóng qua Telegram."</div>
@@ -1791,7 +1880,6 @@
       <a href="https://t.me/thanhconggdev" target="_blank" class="btn btn-primary cta-btn"><i class="fa-brands fa-telegram"></i> Liên Hệ Admin Telegram</a>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="footer-brand">ThanhCongDev • Merry Christmas 🎄</div>
       <div class="footer-sub">&lt;/ Cảm Ơn Mọi Người Đã Ghé Qua &gt;</div>
@@ -1804,15 +1892,80 @@
     </footer>
   </div>
 
+  <!-- Cửa sổ chọn: Lười vượt bank 10k Techcombank QR / Siêng vượt link -->
+  <div class="modal-backdrop" id="link-choice-modal" onclick="handleModalBackdrop(event, this)">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="choice-modal-title">
+      <button type="button" class="modal-close" onclick="closeLinkChoiceModal()" aria-label="Đóng">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div style="font-size: 30px; margin-bottom: 4px;">🎄⚡🎁</div>
+      <h3 id="choice-modal-title" style="font-size: 18px; font-weight: 800; margin-bottom: 6px;">Nhận Nhanh</h3>
+      <p id="choice-modal-sub" style="font-size: 12.5px; color: #cbd5e1; line-height: 1.5;">
+        Lười vượt link thì bank 10k có ngay, còn siêng thì bấm vượt link miễn phí:
+      </p>
+
+      <div class="choice-grid" id="choice-buttons-view">
+        <button type="button" class="choice-btn choice-lazy" onclick="showBank10kView()">
+          <span><i class="fa-solid fa-bolt"></i> Lười vượt → Bank 10k có ngay</span>
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <a id="diligent-bypass-link" href="#" target="_blank" class="choice-btn choice-diligent" style="text-decoration: none;" onclick="closeLinkChoiceModal()">
+          <span><i class="fa-solid fa-snowplow"></i> Siêng thì vượt link miễn phí</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+
+      <div id="bank-10k-view" style="display: none;">
+        <div class="tcb-header-badge">
+          <span class="tcb-logo-mark"><i class="fa-solid fa-building-columns"></i> TCB</span>
+          <span style="font-size: 12.5px; font-weight: 800; letter-spacing: 0.4px; color: #fde68a;">TECHCOMBANK • VIETQR 10K</span>
+        </div>
+
+        <div class="qr-showcase">
+          <img src="https://cdn.phototourl.com/anon/2026-11-22-ab29096c-e8d9-43fa-9bf0-f84fc5bc01ae.jpg" alt="QR Techcombank 999983862009">
+        </div>
+
+        <div class="bank-box">
+          <div class="bank-row">
+            <span><strong>Ngân hàng:</strong> TECHCOMBANK</span>
+          </div>
+          <div class="bank-row">
+            <span><strong>STK:</strong> <span id="bank-stk-value" style="font-family: monospace; font-weight: 800; color: #fde68a;">999983862009</span></span>
+            <button type="button" class="mini-copy-btn" onclick="copyInline('999983862009', this)">Copy STK</button>
+          </div>
+          <div class="bank-row">
+            <span><strong>Chủ TK:</strong> HA VAN THANH</span>
+          </div>
+          <div class="bank-row">
+            <span><strong>Số tiền:</strong> 10.000 đ</span>
+          </div>
+          <div class="bank-row">
+            <span><strong>Nội dung:</strong> <span id="bank-memo-value" style="font-family: monospace; font-weight: 700; color: #6ee7b7;">10K NOEL</span></span>
+            <button type="button" class="mini-copy-btn" id="copy-memo-btn" onclick="copyMemoInline(this)">Copy ND</button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 14px;">
+          <button type="button" class="btn btn-secondary" style="padding: 10px 12px; font-size: 12.5px;" onclick="backToChoiceView()">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại
+          </button>
+          <a href="https://t.me/thanhconggdev" target="_blank" class="btn btn-primary" style="padding: 10px 12px; font-size: 12.5px;">
+            <i class="fa-brands fa-telegram"></i> Gửi Bill Nhận Ngay
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Nút mở hộp quà Noel -->
   <button type="button" id="xmas-gift-btn" onclick="openGiftModal()" title="Mở quà Giáng sinh">
     <i class="fa-solid fa-gift"></i>
   </button>
 
   <!-- Modal quà Noel -->
-  <div class="gift-modal-backdrop" id="gift-modal" onclick="handleBackdropClick(event)">
-    <div class="gift-modal-card" role="dialog" aria-modal="true" aria-labelledby="gift-modal-title">
-      <button type="button" class="gift-modal-close" onclick="closeGiftModal()" aria-label="Đóng">
+  <div class="modal-backdrop" id="gift-modal" onclick="handleModalBackdrop(event, this)">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="gift-modal-title">
+      <button type="button" class="modal-close" onclick="closeGiftModal()" aria-label="Đóng">
         <i class="fa-solid fa-xmark"></i>
       </button>
       <div style="font-size: 38px; margin-bottom: 8px;">🎄🎁❄️</div>
@@ -1919,7 +2072,6 @@
       document.addEventListener(evt, unlockAudioOnInteraction, { once: true, passive: true });
     });
 
-    // Hiệu ứng tuyết rơi Giáng sinh + Bật/Tắt tuyết
     const snowLayer = document.getElementById('snow-layer');
     const snowBtn = document.getElementById('snow-btn');
     const snowChars = ['❄', '❅', '❆', '•'];
@@ -1966,7 +2118,6 @@
     }
     setInterval(createSnowflake, 260);
 
-    // Tương tác chạm / rê chuột tạo tia sáng & bông tuyết nhỏ
     let lastSparkleTime = 0;
     function spawnSparkleAt(x, y) {
       if (!snowEnabled) return;
@@ -1996,7 +2147,6 @@
       spawnSparkleAt(e.clientX, e.clientY);
     }, { passive: true });
 
-    // Lọc nhanh danh sách dịch vụ
     function filterServices(category, btnEl) {
       const tabs = document.querySelectorAll('.filter-tab');
       tabs.forEach(t => t.classList.remove('active'));
@@ -2013,7 +2163,6 @@
       });
     }
 
-    // Copy nhanh thông tin liên hệ
     function copyText(text, btnEl) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).catch(() => {});
@@ -2028,7 +2177,57 @@
       }, 1700);
     }
 
-    // Hộp quà Noel modal
+    const linkChoiceModal = document.getElementById('link-choice-modal');
+    const choiceButtonsView = document.getElementById('choice-buttons-view');
+    const bank10kView = document.getElementById('bank-10k-view');
+    const choiceModalTitle = document.getElementById('choice-modal-title');
+    const choiceModalSub = document.getElementById('choice-modal-sub');
+    const diligentBypassLink = document.getElementById('diligent-bypass-link');
+    const bankMemoValue = document.getElementById('bank-memo-value');
+
+    function openLinkChoiceModal(serviceName, bypassUrl) {
+      if (!linkChoiceModal) return;
+      choiceModalTitle.textContent = serviceName;
+      choiceModalSub.textContent = 'Lười vượt link thì bank 10k có ngay, còn siêng thì bấm vượt link miễn phí:';
+      diligentBypassLink.href = bypassUrl;
+      const shortCode = serviceName.toUpperCase().replace(/[^A-Z0-9]+/g, '').slice(0, 10) || 'LINK';
+      if (bankMemoValue) {
+        bankMemoValue.textContent = '10K ' + shortCode;
+      }
+      backToChoiceView();
+      linkChoiceModal.classList.add('open');
+    }
+
+    function closeLinkChoiceModal() {
+      if (linkChoiceModal) linkChoiceModal.classList.remove('open');
+    }
+
+    function showBank10kView() {
+      if (choiceButtonsView) choiceButtonsView.style.display = 'none';
+      if (bank10kView) bank10kView.style.display = 'block';
+    }
+
+    function backToChoiceView() {
+      if (bank10kView) bank10kView.style.display = 'none';
+      if (choiceButtonsView) choiceButtonsView.style.display = 'grid';
+    }
+
+    function copyInline(text, btnEl) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      }
+      if (btnEl) {
+        const prev = btnEl.textContent;
+        btnEl.textContent = 'Đã chép';
+        setTimeout(() => { btnEl.textContent = prev; }, 1400);
+      }
+    }
+
+    function copyMemoInline(btnEl) {
+      const memo = bankMemoValue ? bankMemoValue.textContent.trim() : '10K NOEL';
+      copyInline(memo, btnEl);
+    }
+
     const giftModal = document.getElementById('gift-modal');
     function openGiftModal() {
       if (giftModal) giftModal.classList.add('open');
@@ -2036,8 +2235,10 @@
     function closeGiftModal() {
       if (giftModal) giftModal.classList.remove('open');
     }
-    function handleBackdropClick(e) {
-      if (e.target === giftModal) closeGiftModal();
+    function handleModalBackdrop(e, backdropEl) {
+      if (e.target === backdropEl) {
+        backdropEl.classList.remove('open');
+      }
     }
     function copyGiftCode(btnEl) {
       const code = document.getElementById('gift-code-text')?.textContent.trim() || 'NOEL-THANHCONGDEV';
