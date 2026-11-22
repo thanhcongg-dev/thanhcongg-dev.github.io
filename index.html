@@ -177,18 +177,12 @@
       font-size: 12px;
       font-weight: 600;
       white-space: nowrap;
-      cursor: pointer;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       transition: padding 0.65s cubic-bezier(0.22, 1, 0.36, 1),
                   gap 0.65s cubic-bezier(0.22, 1, 0.36, 1),
                   border-color 0.45s ease,
                   box-shadow 0.55s ease,
                   transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .top-pill:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-1px);
     }
 
     .top-pill.expanded {
@@ -1078,7 +1072,7 @@
   <div class="container">
     <!-- Navbar -->
     <nav class="nav">
-      <div class="top-pill expanded" id="greeting-pill" title="Bấm để xem lại 2 câu chào">
+      <div class="top-pill expanded" id="greeting-pill">
         <span class="greeting-phrase" id="greeting-phrase">Chào Buổi Sáng ⛅️</span>
         <span class="greeting-time" id="greeting-time">10:01:51</span>
         <i class="fa-solid fa-sun"></i>
@@ -1470,6 +1464,7 @@
       setTimeout(() => {
         document.getElementById('splash-screen').classList.add('hidden');
         playAudio();
+        startAutoGreetingSequence();
       }, 500);
     });
 
@@ -1587,28 +1582,34 @@
       stepTimers.push(swapTimer);
     }
 
-    function playTwoGreetingsThenCollapse(info, eachHoldMs = 2600) {
+    function playTwoGreetingsThenCollapse(info, eachHoldMs = 2400) {
       clearGreetingTimers();
 
-      // Câu 1
+      // Mở rộng luôn với câu 1
       greetingPhraseEl.classList.remove('swapping');
       greetingPhraseEl.textContent = info.phrases[0].text;
       greetingIconEl.className = info.phrases[0].icon;
       greetingPill.classList.remove('collapsed');
       greetingPill.classList.add('expanded');
 
-      // Chuyển sang câu 2
+      // Tự nhảy sang câu 2
       const t1 = setTimeout(() => {
         setPhraseSmoothly(info.phrases[1]);
       }, eachHoldMs);
 
-      // Sau khi hiện đủ câu 2 thì thu gọn mượt mà lại
+      // Hiện xong câu 2 thì tự thu nhỏ lại
       const t2 = setTimeout(() => {
         greetingPill.classList.remove('expanded');
         greetingPill.classList.add('collapsed');
       }, eachHoldMs * 2);
 
       stepTimers.push(t1, t2);
+    }
+
+    function startAutoGreetingSequence() {
+      const info = getTwoGreetingsByPeriod(new Date().getHours());
+      currentPeriod = info.period;
+      playTwoGreetingsThenCollapse(info, 2400);
     }
 
     function updateClock() {
@@ -1620,16 +1621,11 @@
       greetingTimeEl.textContent = `${hStr}:${mStr}:${sStr}`;
 
       const info = getTwoGreetingsByPeriod(hours);
-      if (info.period !== currentPeriod) {
+      if (currentPeriod && info.period !== currentPeriod) {
         currentPeriod = info.period;
-        playTwoGreetingsThenCollapse(info, 2600);
+        playTwoGreetingsThenCollapse(info, 2400);
       }
     }
-
-    greetingPill.addEventListener('click', () => {
-      const info = getTwoGreetingsByPeriod(new Date().getHours());
-      playTwoGreetingsThenCollapse(info, 2400);
-    });
 
     setInterval(updateClock, 1000);
     updateClock();
