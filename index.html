@@ -171,18 +171,48 @@
       border: 1px solid var(--border);
       padding: 9px 14px;
       border-radius: 30px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
       font-size: 12px;
       font-weight: 600;
       white-space: nowrap;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: padding 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                  gap 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.3s ease;
     }
 
     .top-pill i {
       color: #fbbf24;
       font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .greeting-phrase {
+      display: inline-block;
+      max-width: 220px;
+      overflow: hidden;
+      opacity: 1;
+      transform: translateX(0);
+      transition: max-width 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 0.35s ease,
+                  transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  margin-right 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      margin-right: 2px;
+    }
+
+    .top-pill.collapsed .greeting-phrase {
+      max-width: 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      margin-right: 0;
+    }
+
+    .greeting-time {
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.2px;
     }
 
     .nav-actions {
@@ -1001,8 +1031,9 @@
     <!-- Navbar -->
     <nav class="nav">
       <div class="top-pill" id="greeting-pill">
-        <i class="fa-solid fa-cloud-sun"></i>
-        <span id="greeting">Good Afternoon! 16:33:00</span>
+        <span class="greeting-phrase" id="greeting-phrase">Chào Buổi Sáng ⛅️</span>
+        <span class="greeting-time" id="greeting-time">10:01:51</span>
+        <i class="fa-solid fa-sun"></i>
       </div>
       <div class="nav-actions">
         <button class="icon-btn" onclick="toggleMusic()" id="music-btn" title="Bật/Tắt nhạc">
@@ -1439,39 +1470,76 @@
 
     typingEffect();
 
-    function updateClock() {
-      const now = new Date();
+    const greetingPill = document.getElementById('greeting-pill');
+    const greetingPhraseEl = document.getElementById('greeting-phrase');
+    const greetingTimeEl = document.getElementById('greeting-time');
+    const greetingIconEl = greetingPill.querySelector('i');
+
+    const greetingBuckets = {
+      morning: [
+        { text: "Chào Buổi Sáng ⛅️", icon: "fa-solid fa-sun" },
+        { text: "Ăn Sáng Chưa Thằng Em", icon: "fa-solid fa-sun" }
+      ],
+      noon: [
+        { text: "Chào Buổi Trưa 🌤️", icon: "fa-solid fa-cloud-sun" },
+        { text: "Ăn Trưa Chưa Thằng Em", icon: "fa-solid fa-sun" }
+      ],
+      afternoon: [
+        { text: "Chào Buổi Chiều 🌅", icon: "fa-solid fa-cloud-sun" },
+        { text: "Cày Code Tiếp Thôi", icon: "fa-solid fa-bolt" }
+      ],
+      evening: [
+        { text: "Chào Buổi Tối 🌃", icon: "fa-solid fa-moon" },
+        { text: "Ăn Tối Chưa Thằng Em", icon: "fa-solid fa-utensils" }
+      ],
+      night: [
+        { text: "Khuya Rồi Ngủ Đi 💤🌙", icon: "fa-solid fa-moon" },
+        { text: "Vẫn Thức À Thằng Em", icon: "fa-solid fa-star" }
+      ]
+    };
+
+    let phraseIndex = 0;
+
+    function getCurrentBucket(hours) {
+      if (hours >= 5 && hours < 11) return greetingBuckets.morning;
+      if (hours >= 11 && hours < 14) return greetingBuckets.noon;
+      if (hours >= 14 && hours < 18) return greetingBuckets.afternoon;
+      if (hours >= 18 && hours < 23) return greetingBuckets.evening;
+      return greetingBuckets.night;
+    }
+
+    function applyGreetingContent(now) {
       const hours = now.getHours();
       const hStr = String(hours).padStart(2, '0');
       const mStr = String(now.getMinutes()).padStart(2, '0');
       const sStr = String(now.getSeconds()).padStart(2, '0');
-      const timeStr = `${hStr}:${mStr}:${sStr}`;
+      greetingTimeEl.textContent = `${hStr}:${mStr}:${sStr}`;
 
-      let text = "⛅️ Good Day!";
-      let iconClass = "fa-solid fa-cloud-sun";
-
-      if (hours >= 5 && hours < 11) {
-        text = "🌥️ Good Morning!";
-        iconClass = "fa-solid fa-sun";
-      } else if (hours >= 11 && hours < 14) {
-        text = "🌤️ Good Noon!";
-        iconClass = "fa-solid fa-cloud-sun";
-      } else if (hours >= 14 && hours < 18) {
-        text = "🌅 Good Afternoon!";
-        iconClass = "fa-solid fa-cloud-sun";
-      } else if (hours >= 18 && hours < 23) {
-        text = "🌃 Good Evening!";
-        iconClass = "fa-solid fa-moon";
-      } else {
-        text = "💤🌙 Good Night!";
-        iconClass = "fa-solid fa-star";
-      }
-
-      document.getElementById('greeting').textContent = `${text} ${timeStr}`;
-      document.querySelector('#greeting-pill i').className = iconClass;
+      const bucket = getCurrentBucket(hours);
+      const item = bucket[phraseIndex % bucket.length];
+      greetingPhraseEl.textContent = item.text;
+      greetingIconEl.className = item.icon;
     }
+
+    function updateClock() {
+      applyGreetingContent(new Date());
+    }
+
+    function cycleGreetingPill() {
+      greetingPill.classList.add('collapsed');
+
+      setTimeout(() => {
+        phraseIndex = (phraseIndex + 1) % 2;
+        applyGreetingContent(new Date());
+        greetingPill.classList.remove('collapsed');
+      }, 520);
+    }
+
     setInterval(updateClock, 1000);
     updateClock();
+
+    // Mỗi 7 giây thu gọn chữ lại rồi mở rộng ra với câu chào kế tiếp
+    setInterval(cycleGreetingPill, 7000);
 
     function toggleTheme() {
       const body = document.body;
