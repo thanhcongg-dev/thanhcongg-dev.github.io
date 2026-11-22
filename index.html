@@ -49,7 +49,7 @@
     body {
       background-color: var(--bg);
       color: var(--text-main);
-      padding: 20px 14px 48px;
+      padding: 20px 14px 72px;
       display: flex;
       justify-content: center;
       min-height: 100vh;
@@ -149,6 +149,11 @@
       pointer-events: none;
       z-index: 15;
       overflow: hidden;
+      transition: opacity 0.35s ease;
+    }
+
+    #snow-layer.snow-off {
+      opacity: 0;
     }
 
     .snowflake {
@@ -175,6 +180,29 @@
       }
       100% {
         transform: translate3d(calc(var(--sway, 22px) * -0.5), 105vh, 0) rotate(360deg);
+      }
+    }
+
+    /* Tia sáng & tuyết bung khi chạm/rê chuột */
+    .sparkle-burst {
+      position: fixed;
+      pointer-events: none;
+      z-index: 30;
+      font-size: 13px;
+      color: #fde68a;
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.9);
+      transform: translate(-50%, -50%);
+      animation: burstFade 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes burstFade {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.7) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx, 14px)), calc(-50% + var(--dy, -22px))) scale(1.25) rotate(120deg);
       }
     }
 
@@ -263,7 +291,7 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 12px;
-      margin-bottom: 28px;
+      margin-bottom: 14px;
       gap: 10px;
     }
 
@@ -391,6 +419,16 @@
       box-shadow: 0 6px 20px var(--primary-glow);
     }
 
+    .icon-btn.active-toggle {
+      border-color: rgba(125, 211, 252, 0.6);
+      color: #7dd3fc;
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    .icon-btn.muted-toggle {
+      opacity: 0.65;
+    }
+
     .music-playing {
       border-color: var(--accent) !important;
       color: #34d399 !important;
@@ -403,6 +441,45 @@
 
     @keyframes spinVinyl {
       100% { transform: rotate(360deg); }
+    }
+
+    /* Mini trạng thái nhạc Noel */
+    .music-status-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--badge-bg);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    [data-theme="light"] .music-status-bar {
+      color: #047857;
+    }
+
+    .music-status-bar.hidden-bar {
+      display: none;
+    }
+
+    .eq-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: eqPulse 1.1s infinite alternate;
+    }
+
+    @keyframes eqPulse {
+      from { transform: scale(0.8); opacity: 0.65; }
+      to { transform: scale(1.25); opacity: 1; }
     }
 
     /* Hero Section */
@@ -723,7 +800,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 32px;
+      margin-bottom: 14px;
     }
 
     .social-btn {
@@ -769,6 +846,41 @@
     .bg-tiktok { background: linear-gradient(135deg, #000000, #222222); border: 1px solid rgba(255,255,255,0.1); }
     .bg-facebook { background: linear-gradient(135deg, #0866ff, #2b86ff); }
 
+    /* Quick copy bar */
+    .quick-copy-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .copy-chip {
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+    }
+
+    .copy-chip:hover {
+      border-color: var(--gold);
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    .copy-chip.copied {
+      border-color: #10b981;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.14);
+    }
+
     /* Tags */
     .tags {
       display: flex;
@@ -795,6 +907,38 @@
       transform: translateY(-1px);
     }
 
+    /* Filter tabs cho danh sách dịch vụ */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .filter-tab {
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--border-hover);
+      color: var(--text-main);
+    }
+
+    .filter-tab.active {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #ffffff;
+      border-color: rgba(251, 191, 36, 0.45);
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
     /* Card Layout cho dịch vụ */
     .ipa-list {
       display: grid;
@@ -815,6 +959,10 @@
       flex-direction: column;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ipa-card.hidden-filter {
+      display: none;
     }
 
     .ipa-card:hover {
@@ -1102,10 +1250,99 @@
       font-weight: 500;
     }
 
+    /* Hộp quà Noel nổi góc phải */
+    #xmas-gift-btn {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fffbeb;
+      border: 1px solid rgba(251, 191, 36, 0.65);
+      font-size: 21px;
+      cursor: pointer;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      animation: giftBounce 2.8s ease-in-out infinite;
+    }
+
+    #xmas-gift-btn:hover {
+      transform: scale(1.07) rotate(-4deg);
+      box-shadow: 0 10px 28px rgba(251, 191, 36, 0.45);
+    }
+
+    @keyframes giftBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Modal quà Noel */
+    .gift-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(6px);
+      z-index: 90;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .gift-modal-backdrop.open {
+      display: flex;
+    }
+
+    .gift-modal-card {
+      width: 100%;
+      max-width: 390px;
+      background: linear-gradient(160deg, #13253b, #091320);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      border-radius: 22px;
+      padding: 24px 20px;
+      color: #f8fafc;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+      position: relative;
+      animation: fadeInUp 0.25s ease;
+    }
+
+    .gift-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      cursor: pointer;
+    }
+
+    .gift-code-box {
+      margin: 14px auto 18px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px dashed rgba(251, 191, 36, 0.7);
+      background: rgba(251, 191, 36, 0.1);
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fde68a;
+      letter-spacing: 0.6px;
+    }
+
     /* BỐ CỤC MÁY TÍNH (Tablet >= 768px & Desktop >= 1024px) */
     @media (min-width: 768px) {
       body {
-        padding: 36px 28px 56px;
+        padding: 36px 28px 64px;
       }
 
       .container {
@@ -1113,7 +1350,7 @@
       }
 
       .nav {
-        margin-bottom: 36px;
+        margin-bottom: 16px;
       }
 
       .top-pill {
@@ -1243,6 +1480,9 @@
         <i class="fa-solid fa-snowflake"></i>
       </div>
       <div class="nav-actions">
+        <button class="icon-btn active-toggle" onclick="toggleSnow()" id="snow-btn" title="Bật/Tắt tuyết rơi">
+          <i class="fa-solid fa-snowflake"></i>
+        </button>
         <button class="icon-btn" onclick="toggleMusic()" id="music-btn" title="Bật/Tắt nhạc Giáng sinh">
           <i class="fa-solid fa-music"></i>
         </button>
@@ -1251,6 +1491,12 @@
         </button>
       </div>
     </nav>
+
+    <!-- Trạng thái nhạc Noel -->
+    <div class="music-status-bar hidden-bar" id="music-status-bar">
+      <span class="eq-dot"></span>
+      <span>♪ Christmas Vibe — Đang phát</span>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1326,6 +1572,16 @@
       </a>
     </div>
 
+    <!-- Nút copy nhanh thông tin liên hệ -->
+    <div class="quick-copy-row">
+      <button type="button" class="copy-chip" onclick="copyText('@thanhconggdev', this)">
+        <i class="fa-regular fa-copy"></i> <span>Copy Telegram: @thanhconggdev</span>
+      </button>
+      <button type="button" class="copy-chip" onclick="copyText('0333507317', this)">
+        <i class="fa-regular fa-copy"></i> <span>Copy Zalo / SĐT: 0333507317</span>
+      </button>
+    </div>
+
     <!-- Tags -->
     <div class="section-label">TÍNH NĂNG & DỊCH VỤ</div>
     <div class="tags">
@@ -1344,10 +1600,17 @@
 
     <!-- IPA List -->
     <div class="section-label" id="kho-ipa">DỊCH VỤ NỔI BẬT</div>
-    <div class="ipa-list">
+    <div class="filter-tabs" role="tablist" aria-label="Lọc dịch vụ">
+      <button type="button" class="filter-tab active" data-filter="all" onclick="filterServices('all', this)">Tất cả (9)</button>
+      <button type="button" class="filter-tab" data-filter="locket" onclick="filterServices('locket', this)">Locket VIP</button>
+      <button type="button" class="filter-tab" data-filter="game" onclick="filterServices('game', this)">Game Mod</button>
+      <button type="button" class="filter-tab" data-filter="free" onclick="filterServices('free', this)">Free / Get Link</button>
+    </div>
+
+    <div class="ipa-list" id="ipa-list">
 
       <!-- Item 1: Locket (Get Link Nhận Module) -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="locket free">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-fire"></i> Bán Chạy</div>
           <div class="ipa-banner-icon ipa-thumb-frame"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
@@ -1366,7 +1629,7 @@
       </div>
 
       <!-- Item 2: Code Caption Module Locket Theo Yêu Cầu -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="locket">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-pen-nib"></i> Theo Yêu Cầu</div>
           <div class="ipa-banner-icon ipa-thumb-caption"><i class="fa-solid fa-code"></i></div>
@@ -1385,7 +1648,7 @@
       </div>
 
       <!-- Item 3: Shadowrocket (Nhận) -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="locket">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-bolt"></i> Phổ Biến</div>
           <img src="https://cdn.phototourl.com/anon/2026-11-18-2fe8b265-177b-45f4-b739-b156609dfdc4.png" alt="Shadowrocket" class="ipa-banner-img">
@@ -1404,7 +1667,7 @@
       </div>
 
       <!-- Item 4: Liên Quân Mobile Hack (Nhận) -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-crown"></i> VIP Menu</div>
           <img src="https://cdn.phototourl.com/anon/2026-11-18-98d029cb-b9bc-41d7-927b-b6b0349e0566.jpg" alt="Liên Quân" class="ipa-banner-img">
@@ -1423,7 +1686,7 @@
       </div>
 
       <!-- Item 5: Locket Gold (Get Link Nhận Module) -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="locket free">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-fire"></i> Hot Hit</div>
           <img src="https://cdn.phototourl.com/member/2026-11-09-51badb16-0805-4b9d-8b0f-44a86d156c5d.jpg" alt="Locket Gold" class="ipa-banner-img">
@@ -1442,7 +1705,7 @@
       </div>
 
       <!-- Item 6: Goose Goose Duck Hack -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-gamepad"></i> Game Hot</div>
           <img src="https://cdn.phototourl.com/anon/2026-11-18-5c486270-d0e5-4671-bc33-fcd3f58548c1.png" alt="Goose Goose Duck" class="ipa-banner-img">
@@ -1461,7 +1724,7 @@
       </div>
 
       <!-- Item 7: Tốc Chiến Hack -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-trophy"></i> MOBA VIP</div>
           <img src="https://cdn.phototourl.com/anon/2026-11-18-a83d77d0-ab5a-4949-8bd3-d1e5c630275d.jpg" alt="Tốc Chiến Hack" class="ipa-banner-img">
@@ -1480,7 +1743,7 @@
       </div>
 
       <!-- Item 8: PUBG Mobile Menu Vĩnh Viễn -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="game">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-gun"></i> Top Game</div>
           <img src="https://cdn.phototourl.com/anon/2026-11-18-59ea3d8c-9c64-4c25-8959-070b4f049178.png" alt="PUBG Menu" class="ipa-banner-img">
@@ -1499,7 +1762,7 @@
       </div>
 
       <!-- Item 9: Block Blast Menu Hack -->
-      <div class="ipa-card">
+      <div class="ipa-card" data-category="game free">
         <div class="ipa-banner-wrap">
           <div class="ipa-badge-top"><i class="fa-solid fa-gift"></i> Miễn Phí</div>
           <img src="https://cdn.phototourl.com/anon/2026-11-22-e6447bd4-567a-42f2-8378-0ac7d31baa08.jpg" alt="Block Blast Menu Hack" class="ipa-banner-img">
@@ -1541,10 +1804,39 @@
     </footer>
   </div>
 
+  <!-- Nút mở hộp quà Noel -->
+  <button type="button" id="xmas-gift-btn" onclick="openGiftModal()" title="Mở quà Giáng sinh">
+    <i class="fa-solid fa-gift"></i>
+  </button>
+
+  <!-- Modal quà Noel -->
+  <div class="gift-modal-backdrop" id="gift-modal" onclick="handleBackdropClick(event)">
+    <div class="gift-modal-card" role="dialog" aria-modal="true" aria-labelledby="gift-modal-title">
+      <button type="button" class="gift-modal-close" onclick="closeGiftModal()" aria-label="Đóng">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div style="font-size: 38px; margin-bottom: 8px;">🎄🎁❄️</div>
+      <h3 id="gift-modal-title" style="font-size: 19px; font-weight: 800; margin-bottom: 8px;">Quà Giáng Sinh Từ ThanhCongDev</h3>
+      <p style="font-size: 13px; color: #cbd5e1; line-height: 1.55;">
+        Chúc bạn mùa Giáng sinh ấm áp, cày rank mượt mà và nhiều niềm vui! Nhắn Telegram kèm mã quà tặng bên dưới để nhận hỗ trợ ưu tiên mùa Noel:
+      </p>
+      <div class="gift-code-box" id="gift-code-text">NOEL-THANHCONGDEV</div>
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn btn-secondary" style="padding: 11px 14px; font-size: 13px;" onclick="copyGiftCode(this)">
+          <i class="fa-regular fa-copy"></i> Copy Mã
+        </button>
+        <a href="https://t.me/thanhconggdev" target="_blank" class="btn btn-primary" style="padding: 11px 14px; font-size: 13px;">
+          <i class="fa-brands fa-telegram"></i> Nhận Quà
+        </a>
+      </div>
+    </div>
+  </div>
+
   <script>
     const CHRISTMAS_MUSIC_URL = "https://files.catbox.moe/z6zos6.mp3";
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-btn');
+    const musicStatusBar = document.getElementById('music-status-bar');
     const splashEl = document.getElementById('splash-screen');
     let userPaused = false;
     let greetingStarted = false;
@@ -1562,17 +1854,24 @@
       }
     }
 
-    // Đếm 0.5s ngay lập tức từ lúc script chạy, không phụ thuộc window.load
     setTimeout(hideSplashAndStart, 500);
 
     function updateMusicUI(isPlaying) {
-      if (!musicBtn) return;
-      if (isPlaying) {
-        musicBtn.classList.add('music-playing');
-        musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
-      } else {
-        musicBtn.classList.remove('music-playing');
-        musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      if (musicBtn) {
+        if (isPlaying) {
+          musicBtn.classList.add('music-playing');
+          musicBtn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
+        } else {
+          musicBtn.classList.remove('music-playing');
+          musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+        }
+      }
+      if (musicStatusBar) {
+        if (isPlaying) {
+          musicStatusBar.classList.remove('hidden-bar');
+        } else {
+          musicStatusBar.classList.add('hidden-bar');
+        }
       }
     }
 
@@ -1620,12 +1919,25 @@
       document.addEventListener(evt, unlockAudioOnInteraction, { once: true, passive: true });
     });
 
-    // Hiệu ứng tuyết rơi Giáng sinh
+    // Hiệu ứng tuyết rơi Giáng sinh + Bật/Tắt tuyết
     const snowLayer = document.getElementById('snow-layer');
+    const snowBtn = document.getElementById('snow-btn');
     const snowChars = ['❄', '❅', '❆', '•'];
+    let snowEnabled = true;
+
+    function toggleSnow() {
+      snowEnabled = !snowEnabled;
+      if (snowLayer) {
+        snowLayer.classList.toggle('snow-off', !snowEnabled);
+      }
+      if (snowBtn) {
+        snowBtn.classList.toggle('active-toggle', snowEnabled);
+        snowBtn.classList.toggle('muted-toggle', !snowEnabled);
+      }
+    }
 
     function createSnowflake() {
-      if (!snowLayer) return;
+      if (!snowLayer || !snowEnabled) return;
       const flake = document.createElement('span');
       flake.className = 'snowflake';
       flake.textContent = snowChars[Math.floor(Math.random() * snowChars.length)];
@@ -1653,6 +1965,91 @@
       setTimeout(createSnowflake, k * 140);
     }
     setInterval(createSnowflake, 260);
+
+    // Tương tác chạm / rê chuột tạo tia sáng & bông tuyết nhỏ
+    let lastSparkleTime = 0;
+    function spawnSparkleAt(x, y) {
+      if (!snowEnabled) return;
+      const now = Date.now();
+      if (now - lastSparkleTime < 55) return;
+      lastSparkleTime = now;
+
+      const burst = document.createElement('span');
+      burst.className = 'sparkle-burst';
+      burst.textContent = Math.random() > 0.45 ? '✦' : '❄';
+      burst.style.left = x + 'px';
+      burst.style.top = y + 'px';
+      burst.style.setProperty('--dx', (Math.random() * 34 - 17).toFixed(0) + 'px');
+      burst.style.setProperty('--dy', (-Math.random() * 26 - 10).toFixed(0) + 'px');
+      document.body.appendChild(burst);
+
+      setTimeout(() => burst.remove(), 760);
+    }
+
+    document.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'mouse') {
+        spawnSparkleAt(e.clientX, e.clientY);
+      }
+    }, { passive: true });
+
+    document.addEventListener('pointerdown', (e) => {
+      spawnSparkleAt(e.clientX, e.clientY);
+    }, { passive: true });
+
+    // Lọc nhanh danh sách dịch vụ
+    function filterServices(category, btnEl) {
+      const tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      const cards = document.querySelectorAll('#ipa-list .ipa-card');
+      cards.forEach(card => {
+        if (category === 'all') {
+          card.classList.remove('hidden-filter');
+          return;
+        }
+        const cats = (card.getAttribute('data-category') || '').split(/\s+/);
+        card.classList.toggle('hidden-filter', !cats.includes(category));
+      });
+    }
+
+    // Copy nhanh thông tin liên hệ
+    function copyText(text, btnEl) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      }
+      if (!btnEl) return;
+      const originalHtml = btnEl.innerHTML;
+      btnEl.classList.add('copied');
+      btnEl.innerHTML = '<i class="fa-solid fa-check"></i> <span>Đã sao chép: ' + text + '</span>';
+      setTimeout(() => {
+        btnEl.classList.remove('copied');
+        btnEl.innerHTML = originalHtml;
+      }, 1700);
+    }
+
+    // Hộp quà Noel modal
+    const giftModal = document.getElementById('gift-modal');
+    function openGiftModal() {
+      if (giftModal) giftModal.classList.add('open');
+    }
+    function closeGiftModal() {
+      if (giftModal) giftModal.classList.remove('open');
+    }
+    function handleBackdropClick(e) {
+      if (e.target === giftModal) closeGiftModal();
+    }
+    function copyGiftCode(btnEl) {
+      const code = document.getElementById('gift-code-text')?.textContent.trim() || 'NOEL-THANHCONGDEV';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).catch(() => {});
+      }
+      if (btnEl) {
+        const prev = btnEl.innerHTML;
+        btnEl.innerHTML = '<i class="fa-solid fa-check"></i> Đã chép';
+        setTimeout(() => { btnEl.innerHTML = prev; }, 1500);
+      }
+    }
 
     const words = ["I'm a Developer", "Merry Christmas 🎄", "Top 1 Hacker Tiên Đồng Nghệ An", "Scroll down to explore ❄️"];
     let i = 0;
