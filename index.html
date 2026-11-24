@@ -451,6 +451,13 @@
       margin-bottom: 22px;
       backdrop-filter: blur(8px);
       transition: opacity 0.25s ease, transform 0.25s ease;
+      max-width: 100%;
+    }
+
+    .music-status-bar span:last-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     [data-theme="light"] .music-status-bar {
@@ -468,6 +475,7 @@
       background: #10b981;
       box-shadow: 0 0 8px #10b981;
       animation: eqPulse 1.1s infinite alternate;
+      flex-shrink: 0;
     }
 
     @keyframes eqPulse {
@@ -1561,7 +1569,7 @@
 
   <div id="snow-layer" aria-hidden="true"></div>
 
-  <audio id="bg-music" src="https://files.catbox.moe/z6zos6.mp3" autoplay loop playsinline preload="none"></audio>
+  <audio id="bg-music" src="https://files.catbox.moe/z6zos6.mp3" autoplay playsinline preload="none"></audio>
 
   <div id="splash-screen">
     <img src="https://cdn.phototourl.com/member/2026-11-08-92108ade-f95b-4f4f-bbad-8e0c99b70624.jpg" alt="Avatar" class="splash-avatar">
@@ -1583,7 +1591,7 @@
         <button class="icon-btn active-toggle" onclick="toggleSnow()" id="snow-btn" title="Bật/Tắt tuyết rơi">
           <i class="fa-solid fa-snowflake"></i>
         </button>
-        <button class="icon-btn" onclick="toggleMusic()" id="music-btn" title="Bật/Tắt nhạc Giáng sinh">
+        <button class="icon-btn" onclick="toggleMusic()" id="music-btn" title="Bật/Tắt nhạc nền">
           <i class="fa-solid fa-music"></i>
         </button>
         <button class="icon-btn" onclick="toggleTheme()" id="theme-icon" title="Đổi giao diện">
@@ -1594,7 +1602,7 @@
 
     <div class="music-status-bar hidden-bar" id="music-status-bar">
       <span class="eq-dot"></span>
-      <span>♪ Christmas Vibe — Đang phát</span>
+      <span id="music-status-text">♪ Christmas Vibe — Đang phát</span>
     </div>
 
     <section class="hero">
@@ -1986,13 +1994,54 @@
   </div>
 
   <script>
-    const CHRISTMAS_MUSIC_URL = "https://files.catbox.moe/z6zos6.mp3";
+    const PLAYLIST = [
+      {
+        title: "Christmas Vibe",
+        url: "https://files.catbox.moe/z6zos6.mp3"
+      },
+      {
+        title: "Mashup 3in1 Anh Vui x Địa Ngục Trần Gian x Thành Đô - VietMino Remix",
+        url: "https://files.catbox.moe/u7cpnx.mp3"
+      },
+      {
+        title: "I'll Always Be Here (Beat Đình Khánh Remix)",
+        url: "https://files.catbox.moe/ogdns4.mp3"
+      }
+    ];
+
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-btn');
     const musicStatusBar = document.getElementById('music-status-bar');
+    const musicStatusText = document.getElementById('music-status-text');
     const splashEl = document.getElementById('splash-screen');
+
+    let currentTrackIndex = Math.floor(Math.random() * PLAYLIST.length);
     let userPaused = false;
     let greetingStarted = false;
+
+    function loadTrack(index, autoPlay = false) {
+      currentTrackIndex = ((index % PLAYLIST.length) + PLAYLIST.length) % PLAYLIST.length;
+      const track = PLAYLIST[currentTrackIndex];
+      if (!bgMusic) return;
+
+      if (bgMusic.preload !== 'auto') {
+        bgMusic.preload = 'auto';
+      }
+      bgMusic.src = track.url;
+      bgMusic.load();
+
+      if (musicStatusText) {
+        musicStatusText.textContent = `♪ ${track.title} — Đang phát`;
+      }
+
+      if (autoPlay && !userPaused) {
+        bgMusic.play().then(() => {
+          updateMusicUI(true);
+        }).catch(() => {
+          updateMusicUI(false);
+        });
+      }
+    }
 
     function hideSplashAndStart() {
       if (splashEl) {
@@ -2010,6 +2059,10 @@
     setTimeout(hideSplashAndStart, 500);
 
     function updateMusicUI(isPlaying) {
+      const currentTitle = PLAYLIST[currentTrackIndex]?.title || "Nhạc nền";
+      if (musicStatusText) {
+        musicStatusText.textContent = `♪ ${currentTitle} — Đang phát`;
+      }
       if (musicBtn) {
         if (isPlaying) {
           musicBtn.classList.add('music-playing');
@@ -2033,8 +2086,8 @@
       if (bgMusic.preload !== 'auto') {
         bgMusic.preload = 'auto';
       }
-      if (!bgMusic.src || !bgMusic.src.includes(CHRISTMAS_MUSIC_URL)) {
-        bgMusic.src = CHRISTMAS_MUSIC_URL;
+      if (!bgMusic.src || bgMusic.src !== PLAYLIST[currentTrackIndex].url) {
+        bgMusic.src = PLAYLIST[currentTrackIndex].url;
       }
       bgMusic.play().then(() => {
         updateMusicUI(true);
@@ -2058,8 +2111,14 @@
     if (bgMusic) {
       bgMusic.addEventListener('play', () => updateMusicUI(true));
       bgMusic.addEventListener('pause', () => updateMusicUI(false));
+      bgMusic.addEventListener('ended', () => {
+        if (!userPaused) {
+          loadTrack(currentTrackIndex + 1, true);
+        }
+      });
     }
 
+    loadTrack(currentTrackIndex, false);
     playChristmasMusic();
 
     function unlockAudioOnInteraction() {
